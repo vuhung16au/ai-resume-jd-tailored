@@ -1,8 +1,8 @@
-# AI Resume Tailoring Tool - Installation Guide
+# AI✨resume+jd=tailored - Installation Guide
 
-This guide will walk you through the process of setting up the AI Resume Tailoring Tool on your local machine.
+This guide will walk you through the process of setting up the AI✨resume+jd=tailored app on your local machine.
 
-> **Note:** If you just want to use the tool without installing it, you can try the [live version on Vercel](https://ai-resume-jd-tailored.vercel.app/).
+> **Note:** If you just want to use the app without installing it, you can try the [live version on Vercel](https://ai-resume-jd-tailored.vercel.app/).
 
 ## Quick Links
 
@@ -17,20 +17,7 @@ Before you begin, ensure you have the following installed:
 - [npm](https://www.npmjs.com/) (usually comes with Node.js)
 - [A code editor like Visual Studio Code](https://code.visualstudio.com/)
 - A Google Gemini API key (see instructions below)
-- Recommended: Git for version controlTailoring Tool - Installation Guide
-
-This guide will walk you through the process of setting up the AI Resume Tailoring Tool on your local machine.
-
-> **Note:** Skip the installation and try the tool directly at [https://ai-resume-jd-tailored.vercel.app/](https://ai-resume-jd-tailored.vercel.app/)
-
-## Requirements
-
-Before you begin, ensure you have the following installed:
-
-- [Node.js](https://nodejs.org/) (version 18.x or higher recommended)
-- [npm](https://www.npmjs.com/) (usually comes with Node.js)
-- A code editor like [Visual Studio Code](https://code.visualstudio.com/)
-- A Google Gemini API key (see instructions below)
+- Recommended: Git for version control
 
 ## Getting a Google Gemini API Key
 
@@ -88,7 +75,7 @@ After running this command, the application should be available at [http://local
 To verify that everything is working correctly:
 
 1. Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
-2. You should see the AI Resume Tailoring Tool interface
+2. You should see the AI✨resume+jd=tailored interface
 3. Try loading the sample data and generating a tailored resume
 4. If the AI processes the request and returns a tailored resume, your setup is complete!
 
@@ -174,4 +161,4 @@ For optimal results, ensure your documents are properly formatted and readable.
 
 ## Next Steps
 
-Once you have the application running, check out the `FEATURES.md` file for details on how to use all the features of the AI Resume Tailoring Tool. The application includes interactive tutorials to help new users get started.
+Once you have the application running, check out the `FEATURES.md` file for details on how to use all the features of the AI✨resume+jd=tailored app. The application includes interactive tutorials to help new users get started.

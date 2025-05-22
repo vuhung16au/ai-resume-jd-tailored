@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Resume Tailoring Tool",
+  title: "AI✨resume+jd=tailored",
   description: "Customize your resume to match job descriptions with AI assistance",
 };
 
@@ -33,12 +33,7 @@ export default function RootLayout({
           <footer className="mt-auto py-4 px-6 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-sm">
             <div className="container mx-auto flex justify-between items-center">
               <div className="text-gray-500 dark:text-gray-400">
-                © {new Date().getFullYear()} AI Resume Tailor
-              </div>
-              <div className="flex space-x-4">
-                <a href="/test-pdf-parser" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
-                  PDF Parser Test
-                </a>
+                © {new Date().getFullYear()} AI✨resume+jd=tailored
               </div>
             </div>
           </footer>

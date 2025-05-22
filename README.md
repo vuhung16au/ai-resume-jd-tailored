@@ -1,4 +1,4 @@
-# AI Resume Tailoring Tool
+# AI✨resume+jd=tailored
 
 This app helps job seekers tailor their resumes to match specific job descriptions using AI technology. By leveraging Google's Gemini AI, it analyzes both your resume and a job description, then generates a customized version of your resume that highlights relevant skills and experiences.
 
@@ -10,7 +10,7 @@ This app helps job seekers tailor their resumes to match specific job descriptio
 
 ## Live Demo
 
-Try it out: [AI Resume Tailoring Tool on Vercel](https://ai-resume-jd-tailored.vercel.app/)
+Try it out: [AI✨resume+jd=tailored on Vercel](https://ai-resume-jd-tailored.vercel.app/)
 
 ## Repository
 

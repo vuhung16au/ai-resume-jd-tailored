@@ -279,7 +279,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 p-6">
       <main className="max-w-6xl mx-auto">
         <header className="text-center mb-12 pt-6">
-          <h1 className="text-4xl font-bold mb-3 text-gray-800 dark:text-gray-100">AI Resume Tailoring Tool</h1>
+          <h1 className="text-4xl font-bold mb-3 text-gray-800 dark:text-gray-100">AI✨resume+jd=tailored</h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Optimize your resume for specific job descriptions using AI technology. 
             Upload your resume and a job description to get a tailored version that highlights relevant skills and experience.
@@ -652,7 +652,7 @@ export default function Home() {
             Live Demo on Vercel
           </a>
         </div>
-        <p>© {new Date().getFullYear()} AI Resume Tailoring Tool. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} AI✨resume+jd=tailored. All rights reserved.</p>
       </footer>
     </div>
   );

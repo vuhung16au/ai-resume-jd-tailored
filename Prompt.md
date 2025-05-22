@@ -1,3 +1,11 @@
+# Nav bar 
+
+https://github.com/vuhung16au/ai-resume-jd-tailored/issues/5
+
+# Delete the link "Load Sample Data (for testing)"
+
+# Change the name of our app to "AI✨resume+jd=tailored"
+
 # Supported input file formats: 
 
 PDF, DOCX, TXT, RTF, HTML, Markdown

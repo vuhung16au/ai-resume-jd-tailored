@@ -15,7 +15,7 @@ export default function Tutorial() {
 
   const steps: Step[] = [
     {
-      title: "Welcome to the AI Resume Tailoring Tool",
+      title: "Welcome to AI✨resume+jd=tailored",
       content: "This app helps you customize your resume to match specific job descriptions using AI technology. Follow this quick tutorial to learn how to use it."
     },
     {

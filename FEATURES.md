@@ -1,6 +1,6 @@
-# AI Resume Tailoring Tool - Features Guide
+# AI✨resume+jd=tailored - Features Guide
 
-This document provides an overview of all the features available in the AI Resume Tailoring Tool and how to use them effectively.
+This document provides an overview of all the features available in the AI✨resume+jd=tailored app and how to use them effectively.
 
 ## Quick Links
 
@@ -146,7 +146,7 @@ When processing your resume, the application provides visual feedback:
 
 ## Future Enhancements
 
-We are continuously working to improve the AI Resume Tailoring Tool. Upcoming features include:
+We are continuously working to improve the AI✨resume+jd=tailored app. Upcoming features include:
 
 - Advanced formatting options for exported documents
 - Cover letter generation based on your resume and job description
@@ -159,7 +159,7 @@ We are continuously working to improve the AI Resume Tailoring Tool. Upcoming fe
 
 ## Try It Now
 
-You can try the AI Resume Tailoring Tool without installation:
+You can try the AI✨resume+jd=tailored app without installation:
 
 - **Live Demo**: [https://ai-resume-jd-tailored.vercel.app/](https://ai-resume-jd-tailored.vercel.app/)
 - **GitHub Repository**: [https://github.com/vuhung16au/ai-resume-jd-tailored](https://github.com/vuhung16au/ai-resume-jd-tailored)
