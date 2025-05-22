@@ -1,0 +1,9 @@
+service: ai-resume-jd-tailored
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+package:
+  include:
+    - test/**
