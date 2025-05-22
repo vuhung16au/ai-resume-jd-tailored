@@ -16,9 +16,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
-  // Make sure these settings are respected in Next.js build process
+  // Removed forceSwcTransforms as it's not compatible with Turbopack
   experimental: {
-    forceSwcTransforms: true,
+    // Empty experimental section - can be used for future compatible options
   },
   
   // Handling Node.js modules

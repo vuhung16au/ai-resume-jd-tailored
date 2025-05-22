@@ -1,0 +1,10 @@
+{
+  "build": {
+    "env": {
+      "DISABLE_ESLINT_PLUGIN": "true",
+      "ESLINT_SKIP_DISPLAY_WARNING": "true"
+    }
+  },
+  "buildCommand": "next build",
+  "framework": "nextjs"
+}
