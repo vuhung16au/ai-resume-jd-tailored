@@ -154,7 +154,6 @@ The application supports processing the following file formats:
 
 - PDF documents (`.pdf`) 
 - Microsoft Word documents (`.doc`, `.docx`)
-- Rich Text Format (`.rtf`)
 - Plain text files (`.txt`)
 
 For optimal results, ensure your documents are properly formatted and readable.

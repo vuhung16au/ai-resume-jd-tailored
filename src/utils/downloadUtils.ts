@@ -1,5 +1,4 @@
 import { generateResumeDocx } from './docxGenerator';
-import { generateRTF } from './rtfGenerator';
 import { jsPDF } from 'jspdf';
 
 /**
@@ -27,12 +26,6 @@ export const downloadAsText = (content: string, filename: string) => {
 // Download content as markdown
 export const downloadAsMarkdown = (content: string, filename: string) => {
   downloadFile(content, filename, 'text/markdown');
-};
-
-// Download content as RTF
-export const downloadAsRtf = (content: string, filename: string) => {
-  const rtfContent = generateRTF(content);
-  downloadFile(rtfContent, filename, 'application/rtf');
 };
 
 // Download content as DOCX

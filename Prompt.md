@@ -8,7 +8,7 @@ https://github.com/vuhung16au/ai-resume-jd-tailored/issues/5
 
 # Supported input file formats: 
 
-PDF, DOCX, TXT, RTF, HTML, Markdown
+PDF, DOCX, TXT, HTML, Markdown
 
 # Step 3.1: UI requirements 
 

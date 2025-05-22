@@ -11,10 +11,8 @@ export const ACCEPTED_FILE_TYPES = [
   'application/pdf',
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'text/plain',
-  'application/rtf',
-  'text/rtf'
+  'text/plain'
 ];
 
 // File type descriptions
-export const ACCEPTED_FILE_EXTENSIONS = '.pdf, .doc, .docx, .txt, .rtf';
+export const ACCEPTED_FILE_EXTENSIONS = '.pdf, .doc, .docx, .txt';
