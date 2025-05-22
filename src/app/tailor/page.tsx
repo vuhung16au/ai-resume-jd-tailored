@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { generateResumeDocx } from "@/utils/docxGenerator";
 import { downloadAsText, downloadAsMarkdown, downloadAsDocx, downloadAsPdf } from "@/utils/downloadUtils";
+import { MAX_FILE_SIZE, MAX_FILE_SIZE_MB, ACCEPTED_FILE_TYPES, ACCEPTED_FILE_EXTENSIONS } from "@/utils/constants";
 
 export default function TailorPage() {
   const [resumeText, setResumeText] = useState("");
@@ -84,15 +85,14 @@ export default function TailorPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check file size (limit to 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setUploadError("File size exceeds 5MB limit");
+    // Check file size using our constant
+    if (file.size > MAX_FILE_SIZE) {
+      setUploadError(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit`);
       return;
     }
 
-    // Check file type
-    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/rtf', 'text/rtf'];
-    if (!validTypes.includes(file.type)) {
+    // Check file type using our constants
+    if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
       setUploadError("Please upload a PDF, DOCX, RTF, or TXT file");
       return;
     }
@@ -121,7 +121,14 @@ export default function TailorPage() {
       }
     } catch (error) {
       console.error("Error processing file:", error);
-      setUploadError("Failed to process file. Please try another file or paste the text directly.");
+      
+      // Check if the error message contains file size info
+      if (error instanceof Error && error.message.includes(`size exceeds ${MAX_FILE_SIZE_MB}MB`)) {
+        setUploadError(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit. Please upload a smaller file or paste text directly.`);
+      } else {
+        setUploadError("Failed to process file. Please try another file or paste the text directly.");
+      }
+      
       setResumeText(""); // Clear the loading indicator
       setResumeFilename(""); // Clear the filename
     }
@@ -132,15 +139,14 @@ export default function TailorPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check file size (limit to 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setJdUploadError("File size exceeds 5MB limit");
+    // Check file size using our constant
+    if (file.size > MAX_FILE_SIZE) {
+      setJdUploadError(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit`);
       return;
     }
 
-    // Check file type
-    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/rtf', 'text/rtf'];
-    if (!validTypes.includes(file.type)) {
+    // Check file type using our constants
+    if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
       setJdUploadError("Please upload a PDF, DOCX, RTF, or TXT file");
       return;
     }
@@ -162,7 +168,14 @@ export default function TailorPage() {
       setJobDescription(extractedText || "");
     } catch (error) {
       console.error("Error processing file:", error);
-      setJdUploadError("Failed to process file. Please try another file or paste the text directly.");
+      
+      // Check if the error message contains file size info
+      if (error instanceof Error && error.message.includes(`size exceeds ${MAX_FILE_SIZE_MB}MB`)) {
+        setJdUploadError(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit. Please upload a smaller file or paste text directly.`);
+      } else {
+        setJdUploadError("Failed to process file. Please try another file or paste the text directly.");
+      }
+      
       setJobDescription(""); // Clear the loading indicator
       setJdFilename(""); // Clear the filename
     }
@@ -273,7 +286,7 @@ export default function TailorPage() {
                 <div className="flex flex-col gap-2">
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm text-gray-600 dark:text-gray-400">
-                      Upload resume or paste text below
+                      Upload resume or paste text below <span className="text-xs text-gray-500">(max {MAX_FILE_SIZE_MB}MB)</span>
                     </label>
                     <button
                       type="button"
@@ -287,7 +300,7 @@ export default function TailorPage() {
                     </button>
                     <input
                       type="file"
-                      accept=".pdf,.doc,.docx,.txt,.rtf"
+                      accept={ACCEPTED_FILE_EXTENSIONS}
                       className="hidden"
                       ref={fileInputRef}
                       onChange={handleFileUpload}
@@ -302,7 +315,12 @@ export default function TailorPage() {
                     </div>
                   )}
                   {uploadError && (
-                    <div className="text-red-500 text-sm mb-2">{uploadError}</div>
+                    <div className="bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 p-3 rounded-md mb-2 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2 text-red-500">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                      </svg>
+                      {uploadError}
+                    </div>
                   )}
                   <textarea
                     className="w-full h-80 p-3 border rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
@@ -324,7 +342,7 @@ export default function TailorPage() {
                 <div className="flex flex-col gap-2">
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm text-gray-600 dark:text-gray-400">
-                      Upload JD or paste text below
+                      Upload JD or paste text below <span className="text-xs text-gray-500">(max {MAX_FILE_SIZE_MB}MB)</span>
                     </label>
                     <button
                       type="button"
@@ -338,7 +356,7 @@ export default function TailorPage() {
                     </button>
                     <input
                       type="file"
-                      accept=".pdf,.doc,.docx,.txt,.rtf"
+                      accept={ACCEPTED_FILE_EXTENSIONS}
                       className="hidden"
                       ref={jdFileInputRef}
                       onChange={handleJdFileUpload}
@@ -353,7 +371,12 @@ export default function TailorPage() {
                     </div>
                   )}
                   {jdUploadError && (
-                    <div className="text-red-500 text-sm mb-2">{jdUploadError}</div>
+                    <div className="bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 p-3 rounded-md mb-2 flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2 text-red-500">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                      </svg>
+                      {jdUploadError}
+                    </div>
                   )}
                   <textarea
                     className="w-full h-80 p-3 border rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"

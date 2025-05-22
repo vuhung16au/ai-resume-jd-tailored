@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mammoth from 'mammoth';
+import { MAX_FILE_SIZE, ACCEPTED_FILE_TYPES } from '@/utils/constants';
 
 /**
  * Parse RTF content and extract only the human-readable text
@@ -239,6 +240,16 @@ export const POST = async (req: NextRequest) => {
     
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+    }
+
+    // Check file size against our constant limit
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ error: `File size exceeds ${MAX_FILE_SIZE / (1024 * 1024)}MB limit` }, { status: 400 });
+    }
+    
+    // Check file type
+    if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
+      return NextResponse.json({ error: 'Invalid file type. Please upload a PDF, DOCX, RTF, or TXT file' }, { status: 400 });
     }
     
     // Get file type and array buffer

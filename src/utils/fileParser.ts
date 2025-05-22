@@ -18,6 +18,7 @@ export async function parseFile(file: File): Promise<string> {
     
     if (!response.ok) {
       const errorData = await response.json();
+      // Pass the specific error message from the server
       throw new Error(errorData.error || 'Failed to parse file');
     }
     
@@ -25,6 +26,11 @@ export async function parseFile(file: File): Promise<string> {
     return data.text;
   } catch (error) {
     console.error('Error parsing file:', error);
-    throw new Error('Failed to parse file');
+    // Preserve the original error message if it exists
+    if (error instanceof Error && error.message) {
+      throw error;
+    } else {
+      throw new Error('Failed to parse file');
+    }
   }
 }
