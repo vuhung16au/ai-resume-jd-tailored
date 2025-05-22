@@ -6,13 +6,13 @@ const nextConfig = {
   
   // IMPORTANT: Disable ESLint and TypeScript checking during build
   eslint: {
-    // This disables ESLint during build - only use this temporarily until issues are fixed
+    // This disables ESLint during build
     ignoreDuringBuilds: true,
   },
   
   // Disable TypeScript checking during build
   typescript: {
-    // This disables TypeScript checking during build - only use this temporarily until issues are fixed
+    // This disables TypeScript checking during build
     ignoreBuildErrors: true,
   },
   

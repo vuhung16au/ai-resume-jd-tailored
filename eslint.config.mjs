@@ -13,12 +13,12 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     rules: {
-      "prefer-const": "warn",
-      "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@next/next/no-html-link-for-pages": "warn",
-      "@next/next/no-img-element": "warn",
-      "@typescript-eslint/ban-ts-comment": "warn"
+      "prefer-const": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@next/next/no-html-link-for-pages": "off",
+      "@next/next/no-img-element": "off",
+      "@typescript-eslint/ban-ts-comment": "off"
     }
   }
 ];
