@@ -172,17 +172,6 @@ export default function AboutPage() {
                 <p className="text-gray-700 dark:text-gray-300">
                   <strong className="text-gray-900 dark:text-white">Email:</strong> vuhung16plus+hello (at) gmail (dot) com
                 </p>
-                <p className="text-gray-700 dark:text-gray-300">
-                  <strong className="text-gray-900 dark:text-white">GitHub:</strong>{" "}
-                  <a 
-                    href="https://github.com/vuhung16au/ai-resume-jd-tailored" 
-                    className="text-blue-600 dark:text-blue-400 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    github.com/vuhung16au/ai-resume-jd-tailored
-                  </a>
-                </p>
               </div>
               
               <div className="mt-8 text-center">

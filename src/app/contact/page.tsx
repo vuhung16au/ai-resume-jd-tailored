@@ -120,25 +120,6 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <div className="ml-3 text-gray-700 dark:text-gray-300">
-                      <p className="font-medium">GitHub</p>
-                      <a 
-                        href="https://github.com/vuhung16au/ai-resume-jd-tailored" 
-                        className="text-blue-600 dark:text-blue-400 hover:underline"
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                      >
-                        github.com/vuhung16au/ai-resume-jd-tailored
-                      </a>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <svg className="h-6 w-6 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <div className="ml-3 text-gray-700 dark:text-gray-300">
                       <p className="font-medium">Response Time</p>
                       <p>We aim to respond within 24-48 hours</p>
                     </div>
