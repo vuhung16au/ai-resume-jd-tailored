@@ -2,7 +2,14 @@
 
 This guide will walk you through the process of setting up the AI Resume Tailoring Tool on your local machine.
 
-## Prerequisites
+> **Note:** If you just want to use the tool without installing it, you can try the [live version on Vercel](https://ai-resume-jd-tailored.vercel.app/).
+
+## Quick Links
+
+- [Live Demo](https://ai-resume-jd-tailored.vercel.app/)
+- [GitHub Repository](https://github.com/vuhung16au/ai-resume-jd-tailored)
+
+## Setup Requirements
 
 Before you begin, ensure you have the following installed:
 
@@ -14,7 +21,9 @@ Before you begin, ensure you have the following installed:
 
 This guide will walk you through the process of setting up the AI Resume Tailoring Tool on your local machine.
 
-## Prerequisites
+> **Note:** Skip the installation and try the tool directly at [https://ai-resume-jd-tailored.vercel.app/](https://ai-resume-jd-tailored.vercel.app/)
+
+## Requirements
 
 Before you begin, ensure you have the following installed:
 
@@ -37,7 +46,7 @@ Before you begin, ensure you have the following installed:
 
 ```zsh
 # Clone the repository to your local machine
-git clone https://github.com/yourusername/ai-resume-jd-tailored.git
+git clone https://github.com/vuhung16au/ai-resume-jd-tailored.git
 cd ai-resume-jd-tailored
 ```
 
@@ -138,6 +147,7 @@ For cloud-based hosting options:
   - Connect your GitHub repository
   - Vercel will automatically detect Next.js and deploy appropriately
   - Set up your environment variables in the Vercel dashboard
+  - Our official deployment: [https://ai-resume-jd-tailored.vercel.app/](https://ai-resume-jd-tailored.vercel.app/)
 
 - **Netlify**:
   - Use the build command: `npm run build`
@@ -148,6 +158,8 @@ For cloud-based hosting options:
   - Connect your repository
   - Set the build settings for Next.js
   - Configure environment variables in the Amplify Console
+
+You can fork our [GitHub repository](https://github.com/vuhung16au/ai-resume-jd-tailored) and deploy your own version with customizations.
 
 ## File Processing Support
 

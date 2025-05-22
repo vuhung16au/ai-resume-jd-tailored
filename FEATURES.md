@@ -2,6 +2,11 @@
 
 This document provides an overview of all the features available in the AI Resume Tailoring Tool and how to use them effectively.
 
+## Quick Links
+
+- [Live Demo](https://ai-resume-jd-tailored.vercel.app/) - Try the application online
+- [GitHub Repository](https://github.com/vuhung16au/ai-resume-jd-tailored) - View source code and contribute
+
 ## Core Features
 
 ### 1. Resume Input
@@ -151,3 +156,10 @@ We are continuously working to improve the AI Resume Tailoring Tool. Upcoming fe
 - PDF export with professional formatting
 - Cloud storage for saving multiple versions of tailored resumes
 - Integration with job application platforms
+
+## Try It Now
+
+You can try the AI Resume Tailoring Tool without installation:
+
+- **Live Demo**: [https://ai-resume-jd-tailored.vercel.app/](https://ai-resume-jd-tailored.vercel.app/)
+- **GitHub Repository**: [https://github.com/vuhung16au/ai-resume-jd-tailored](https://github.com/vuhung16au/ai-resume-jd-tailored)

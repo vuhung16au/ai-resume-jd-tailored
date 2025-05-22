@@ -27,7 +27,7 @@ export default function Home() {
     // Split the text by lines
     const lines = text.split('\n');
     let markdown = '';
-    let inList = false;
+    let inList = false; 
     
     lines.forEach((line, index) => {
       // Skip empty lines, but add them to preserve formatting
@@ -279,9 +279,10 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 p-6">
       <main className="max-w-6xl mx-auto">
         <header className="text-center mb-12 pt-6">
-          <h1 className="text-4xl font-bold text-blue-700 dark:text-blue-400 mb-2">AI Resume Tailoring</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Customize your resume to match job descriptions with AI assistance
+          <h1 className="text-4xl font-bold mb-3 text-gray-800 dark:text-gray-100">AI Resume Tailoring Tool</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Optimize your resume for specific job descriptions using AI technology. 
+            Upload your resume and a job description to get a tailored version that highlights relevant skills and experience.
           </p>
         </header>
 
@@ -624,6 +625,35 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* Footer with GitHub and Vercel links */}
+      <footer className="mt-12 text-center text-sm text-gray-600 dark:text-gray-400">
+        <div className="flex justify-center space-x-6 mb-4">
+          <a 
+            href="https://github.com/vuhung16au/ai-resume-jd-tailored" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+            </svg>
+            GitHub Repository
+          </a>
+          <a 
+            href="https://ai-resume-jd-tailored.vercel.app/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            <svg className="h-5 w-5 mr-2" viewBox="0 0 76 65" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
+            </svg>
+            Live Demo on Vercel
+          </a>
+        </div>
+        <p>© {new Date().getFullYear()} AI Resume Tailoring Tool. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

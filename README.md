@@ -8,6 +8,14 @@ This app helps job seekers tailor their resumes to match specific job descriptio
   <img src="https://img.shields.io/badge/Google-Gemini%20API-green" alt="Google Gemini API" />
 </p>
 
+## Live Demo
+
+Try it out: [AI Resume Tailoring Tool on Vercel](https://ai-resume-jd-tailored.vercel.app/)
+
+## Repository
+
+GitHub: [github.com/vuhung16au/ai-resume-jd-tailored](https://github.com/vuhung16au/ai-resume-jd-tailored)
+
 ## Features
 
 - **Smart Resume Analysis**: Upload your resume in various formats (PDF, DOCX, TXT, RTF)
