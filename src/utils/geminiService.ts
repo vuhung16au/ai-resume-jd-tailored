@@ -108,10 +108,19 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
     {
       "tailoredResume": "The complete tailored resume text...",
       "coverLetter": "The complete cover letter text...",
-      "resumeMatchExplanation": "A brief explanation of why this resume matches the job description...",
-      "coverLetterExplanation": "A brief explanation of why this cover letter effectively supports the application..."
+      "resumeMatchExplanation": "A detailed explanation of why this resume matches the job description...",
+      "coverLetterExplanation": "A detailed explanation of why this cover letter effectively supports the application..."
     }
+
+    **Instructions:**
+    1. "resumeMatchExplanation" should explain how the resume aligns with the job description
+    2. "coverLetterExplanation" should explain how the cover letter supports the application
+    3. Use clear and concise language, avoiding jargon or overly complex sentences.
+    4. Ensure the JSON is valid and properly formatted.
+    5. Do not include any additional text outside of the JSON structure.
+    6. If you cannot generate a valid JSON response, return an error message in the same format.
   `;
+
 
   // Try models in priority order
   const modelOptions = [
@@ -145,6 +154,7 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
       const response = await result.response;
       const responseText = response.text();
       
+      console.log("Response from Gemini AI:", responseText);
       try {
         // Parse the JSON response
         const jsonStart = responseText.indexOf('{');

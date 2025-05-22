@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { generateResumeDocx } from "@/utils/docxGenerator";
 import { downloadAsText, downloadAsMarkdown, downloadAsDocx, downloadAsPdf } from "@/utils/downloadUtils";
 import { MAX_FILE_SIZE, MAX_FILE_SIZE_MB, ACCEPTED_FILE_TYPES, ACCEPTED_FILE_EXTENSIONS } from "@/utils/constants";
+import React from "react";
 
 export default function TailorPage() {
   const [resumeText, setResumeText] = useState("");
@@ -261,6 +262,49 @@ export default function TailorPage() {
       setProcessingStep(0);
     }
   };
+
+  function ExplanationWithToggle({ explanation, title }: { explanation: string; title: string }) {
+    const [expanded, setExpanded] = React.useState(false);
+    const MAX_LENGTH = 400;
+
+    // Split executive summary (first paragraph) and the rest
+    const [summary, ...rest] = explanation.split(/\n|\r|\r\n/).filter(Boolean);
+    const restText = rest.join("\n");
+
+    // Try to extract bullet points from the rest
+    const bulletPoints = restText
+      .split(/\n|\r|\r\n/)
+      .filter(line => line.trim().startsWith("-") || line.trim().startsWith("•"));
+
+    // Short version: summary + first 2 bullets
+    const shortBullets = bulletPoints.slice(0, 2);
+    const isLong = bulletPoints.length > 2 || restText.length > MAX_LENGTH;
+
+    return (
+      <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 p-4 rounded-md mb-6">
+        <h3 className="font-medium text-blue-800 dark:text-blue-200 mb-2">{title}</h3>
+        <div className="text-sm whitespace-pre-wrap">
+          <span className="font-semibold block mb-2">{summary}</span>
+          <ul className="list-disc pl-5">
+            {(expanded || !isLong
+              ? bulletPoints
+              : shortBullets
+            ).map((point, idx) => (
+              <li key={idx}>{point.replace(/^[-•]\s*/, "")}</li>
+            ))}
+          </ul>
+          {isLong && (
+            <button
+              className="mt-2 text-xs text-blue-600 dark:text-blue-300 underline focus:outline-none"
+              onClick={() => setExpanded(e => !e)}
+            >
+              {expanded ? "Show less" : "Show more"}
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 p-6">
@@ -520,12 +564,10 @@ export default function TailorPage() {
                   )}
                   
                   {resumeMatchExplanation && (
-                    <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 p-4 rounded-md mb-6">
-                      <h3 className="font-medium text-blue-800 dark:text-blue-200 mb-2">Why this resume matches the job description:</h3>
-                      <div className="text-sm whitespace-pre-wrap">
-                        {resumeMatchExplanation}
-                      </div>
-                    </div>
+                    <ExplanationWithToggle
+                      explanation={resumeMatchExplanation}
+                      title="Why this resume matches the job description:"
+                    />
                   )}
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -749,12 +791,10 @@ export default function TailorPage() {
                   )}
 
                   {coverLetterExplanation && (
-                    <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 p-4 rounded-md mb-6">
-                      <h3 className="font-medium text-blue-800 dark:text-blue-200 mb-2">Why this cover letter matches the job description:</h3>
-                      <div className="text-sm whitespace-pre-wrap">
-                        {coverLetterExplanation}
-                      </div>
-                    </div>
+                    <ExplanationWithToggle
+                      explanation={coverLetterExplanation}
+                      title="Why this cover letter matches the job description:"
+                    />
                   )}
                   
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap text-sm overflow-auto max-h-[600px]">
