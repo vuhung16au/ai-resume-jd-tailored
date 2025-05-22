@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
+// Removed unused imports
+// import Image from "next/image";
 import { useState, useRef } from "react";
-import Tutorial from "@/components/Tutorial";
+// import Tutorial from "@/components/Tutorial";
 import { loadSampleData } from "@/utils/sampleData";
 import { generateResumeDocx } from "@/utils/docxGenerator";
 
@@ -26,13 +27,14 @@ export default function Home() {
     // Split the text by lines
     const lines = text.split('\n');
     let markdown = '';
-    let inList = false;
+    // Variable is assigned but never used - removing the declaration
+    // let inList = false;
     
     lines.forEach((line, index) => {
       // Skip empty lines, but add them to preserve formatting
       if (line.trim() === '') {
         markdown += '\n';
-        inList = false;
+        // inList = false; // Not needed since variable is unused
         return;
       }
       

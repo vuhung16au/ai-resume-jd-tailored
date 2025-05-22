@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import { join } from 'path';
-import { createReadStream } from 'fs';
+// Removing unused import: import { createReadStream } from 'fs';
 import os from 'os';
 
 // Disable body parsing for this route since we're handling it with formidable
@@ -14,8 +14,9 @@ export const config = {
   },
 };
 
-// Function to parse form data
-async function parseFormData(req: NextRequest) {
+// Function to parse form data - Removed because it's unused
+/* 
+async function parseFormData(_req: NextRequest) {
   // Create a temporary directory
   const tempDir = join(os.tmpdir(), 'resume-uploads');
   try {
@@ -23,6 +24,7 @@ async function parseFormData(req: NextRequest) {
   } catch (error) {
     // Directory might already exist
   }
+*/
 
   return new Promise<{
     fields: formidable.Fields;
@@ -46,8 +48,9 @@ async function parseFormData(req: NextRequest) {
   });
 }
 
-// Function to extract text from files
-async function extractTextFromFile(file: any): Promise<string> {
+// Function to extract text from files - Removed because it's unused
+/*
+async function extractTextFromFile(file: Record<string, unknown>): Promise<string> {
   const filePath = file.filepath;
   const fileType = file.mimetype;
 
@@ -69,7 +72,7 @@ async function extractTextFromFile(file: any): Promise<string> {
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   try {
     // For this demo, we'll focus on the text-based implementation
     // since file upload handling in Next.js App Router requires more complex setup

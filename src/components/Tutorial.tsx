@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface Step {
   title: string;
@@ -83,9 +84,11 @@ export default function Tutorial() {
           
           {steps[currentStep].image && (
             <div className="mt-4 rounded-md overflow-hidden">
-              <img
+              <Image
                 src={steps[currentStep].image}
                 alt={`Tutorial step ${currentStep + 1}`}
+                width={800}
+                height={450}
                 className="w-full h-auto"
               />
             </div>

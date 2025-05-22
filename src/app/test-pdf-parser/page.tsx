@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 
 export default function TestPdfParser() {
   const [extractedText, setExtractedText] = useState("");
@@ -60,9 +61,9 @@ export default function TestPdfParser() {
       }
       
       setExtractedText(data.text);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error parsing PDF file:', error);
-      setError(error.message || 'Failed to parse PDF file');
+      setError(error instanceof Error ? error.message : 'Failed to parse PDF file');
     } finally {
       setLoading(false);
     }
@@ -73,7 +74,7 @@ export default function TestPdfParser() {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">PDF Parser Test</h1>
-          <a href="/" className="text-blue-400 hover:text-blue-300">Back to Main App</a>
+          <Link href="/" className="text-blue-400 hover:text-blue-300">Back to Main App</Link>
         </div>
         
         <div className="bg-gray-800 p-6 rounded-lg mb-6">
