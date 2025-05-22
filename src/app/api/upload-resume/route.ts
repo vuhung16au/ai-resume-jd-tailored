@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import formidable from 'formidable';
+// Using dynamic import for formidable since it's ESM
+// The formidable import will be used in the uncommented functions when needed
 import fs from 'fs/promises';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
@@ -7,9 +8,10 @@ import { join } from 'path';
 // Removing unused import: import { createReadStream } from 'fs';
 import os from 'os';
 
-// Disable body parsing for this route since we're handling it with formidable
+// Configure route to disable body parsing for file uploads
 export const config = {
   api: {
+    // For Next.js App Router, the bodyParser configuration works differently
     bodyParser: false,
   },
 };
@@ -19,6 +21,9 @@ export const config = {
 
 /*
 async function parseFormData(_req: NextRequest) {
+  // Dynamically import formidable (properly handles ESM in Next.js)
+  const formidable = await import('formidable');
+  
   // Create a temporary directory
   const tempDir = join(os.tmpdir(), 'resume-uploads');
   try {
