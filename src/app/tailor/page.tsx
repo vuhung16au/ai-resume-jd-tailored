@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { loadSampleData } from "@/utils/sampleData";
 import { generateResumeDocx } from "@/utils/docxGenerator";
 
 export default function TailorPage() {
@@ -387,25 +386,6 @@ export default function TailorPage() {
                   />
                 </div>
               </div>
-            </div>
-            
-            <div className="flex justify-center mt-4">
-              <button
-                type="button"
-                onClick={() => {
-                  const { resumeText: sampleResumeText, jobDescription: sampleJobDesc } = loadSampleData();
-                  setResumeText(sampleResumeText);
-                  setJobDescription(sampleJobDesc);
-                  setResumeFilename("");
-                  setJdFilename("");
-                }}
-                className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                </svg>
-                Load Sample Data (for testing)
-              </button>
             </div>
 
             {error && (
