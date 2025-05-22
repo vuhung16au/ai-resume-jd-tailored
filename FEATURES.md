@@ -1,5 +1,11 @@
 # AI✨resume+jd=tailored - Features Guide
 
+**Notice:**
+
+- This is a **client-server web application**. Your data is processed securely on our servers and not stored after your session ends.
+- We use **Google Gemini AI** for resume tailoring. By using this app, you agree to the [Gemini AI Terms of Service](https://ai.google.dev/terms).
+- **AI can make mistakes.** You must review and verify all results before using them for any official or important purpose.
+
 This document provides an overview of all the features available in the AI✨resume+jd=tailored app and how to use them effectively.
 
 ## Quick Links

@@ -11,8 +11,16 @@ export default function PrivacyPage() {
           
           <div className="prose prose-blue dark:prose-invert max-w-none">
             <p className="text-lg mb-6">
-              Last Updated: May 20, 2025
+              Last Updated: May 23, 2025
             </p>
+            <div className="mb-6 p-4 border-l-4 border-blue-500 bg-blue-50 dark:bg-gray-800">
+              <p className="mb-2"><strong>Important Notice:</strong></p>
+              <ul className="list-disc pl-6">
+                <li>This is a <strong>client-server web application</strong>. Your data is processed on our secure servers and not stored after your session ends.</li>
+                <li>We use <strong>Google Gemini AI</strong> to process and tailor your resume. By using this service, you agree to the <a href="https://ai.google.dev/terms" target="_blank" rel="noopener noreferrer" className="underline">Gemini AI Terms of Service</a>.</li>
+                <li><strong>AI Limitations:</strong> The AI may make mistakes or generate inaccurate content. <span className="text-red-600 dark:text-red-400 font-semibold">You must carefully review and verify all results before using them for any official purpose.</span></li>
+              </ul>
+            </div>
 
             <h2 className="text-2xl font-semibold mb-4 mt-8">
               Overview

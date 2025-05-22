@@ -1,6 +1,12 @@
 # AI✨resume+jd=tailored
 
-This app helps job seekers tailor their resumes to match specific job descriptions using AI technology. By leveraging Google's Gemini AI, it analyzes both your resume and a job description, then generates a customized version of your resume that highlights relevant skills and experiences.
+**Notice:**
+
+- This is a **client-server web application**. Your data is processed securely on our servers and not stored after your session ends.
+- We use **Google Gemini AI** for resume tailoring. By using this app, you agree to the [Gemini AI Terms of Service](https://ai.google.dev/terms).
+- **AI can make mistakes.** You must review and verify all results before using them for any official or important purpose.
+
+This app is a <strong>client-server web application</strong> that helps job seekers tailor their resumes to match specific job descriptions using AI technology. By leveraging Google's Gemini AI, it analyzes both your resume and a job description, then generates a customized version of your resume that highlights relevant skills and experiences.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-14-black" alt="Next.js 14" />
