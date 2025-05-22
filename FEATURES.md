@@ -52,6 +52,7 @@ You can save your tailored resume in multiple formats:
 
 - **Text File**: Simple plain text format for universal compatibility
 - **DOCX File**: Microsoft Word format with basic formatting
+- **RTF File**: Rich Text Format for compatibility with most word processors
 - **Markdown**: Structured format that preserves headings and formatting (available for both original and tailored resume)
 
 ### 6. Clipboard Support

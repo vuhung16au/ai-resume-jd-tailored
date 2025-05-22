@@ -1,10 +1,16 @@
 import { generateResumeDocx } from './docxGenerator';
+import { generateRTF } from './rtfGenerator';
 import { jsPDF } from 'jspdf';
 
-// Download content as plain text
-export const downloadAsText = (content: string, filename: string) => {
+/**
+ * Utility function for generic file download
+ * @param content - Content to download
+ * @param filename - Filename to save as
+ * @param mimeType - MIME type of the content
+ */
+const downloadFile = (content: string | Blob, filename: string, mimeType: string) => {
   const element = document.createElement('a');
-  const file = new Blob([content], { type: 'text/plain' });
+  const file = content instanceof Blob ? content : new Blob([content], { type: mimeType });
   element.href = URL.createObjectURL(file);
   element.download = filename;
   document.body.appendChild(element);
@@ -13,16 +19,20 @@ export const downloadAsText = (content: string, filename: string) => {
   URL.revokeObjectURL(element.href);
 };
 
+// Download content as plain text
+export const downloadAsText = (content: string, filename: string) => {
+  downloadFile(content, filename, 'text/plain');
+};
+
 // Download content as markdown
 export const downloadAsMarkdown = (content: string, filename: string) => {
-  const element = document.createElement('a');
-  const file = new Blob([content], { type: 'text/markdown' });
-  element.href = URL.createObjectURL(file);
-  element.download = filename;
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
-  URL.revokeObjectURL(element.href);
+  downloadFile(content, filename, 'text/markdown');
+};
+
+// Download content as RTF
+export const downloadAsRtf = (content: string, filename: string) => {
+  const rtfContent = generateRTF(content);
+  downloadFile(rtfContent, filename, 'application/rtf');
 };
 
 // Download content as DOCX

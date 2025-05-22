@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { generateResumeDocx } from "@/utils/docxGenerator";
-import { downloadAsText, downloadAsMarkdown, downloadAsDocx, downloadAsPdf } from "@/utils/downloadUtils";
+import { downloadAsText, downloadAsMarkdown, downloadAsDocx, downloadAsPdf, downloadAsRtf } from "@/utils/downloadUtils";
 import { MAX_FILE_SIZE, MAX_FILE_SIZE_MB, ACCEPTED_FILE_TYPES, ACCEPTED_FILE_EXTENSIONS } from "@/utils/constants";
 
 export default function TailorPage() {
@@ -684,6 +684,24 @@ export default function TailorPage() {
                         </svg>
                         TXT
                       </button>
+
+                      {/* RTF button */}
+                      <button
+                        onClick={() => {
+                          downloadAsRtf(tailoredResume, "tailored-resume.rtf");
+                          setSuccess("Resume downloaded as RTF successfully!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="px-5 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors flex items-center"
+                        title="Download as RTF"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2H6Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M8 13H12M16 17H12M12 13V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        RTF
+                      </button>
                     </div>
                     
                     {/* Start Over button */}
@@ -840,14 +858,7 @@ export default function TailorPage() {
                       {/* TXT button */}
                       <button
                         onClick={() => {
-                          const element = document.createElement("a");
-                          const file = new Blob([coverLetter], { type: "text/plain" });
-                          element.href = URL.createObjectURL(file);
-                          element.download = "cover-letter.txt";
-                          document.body.appendChild(element);
-                          element.click();
-                          document.body.removeChild(element);
-                          
+                          downloadAsText(coverLetter, "cover-letter.txt");
                           setSuccess("Cover letter downloaded as text file!");
                           setTimeout(() => setSuccess(""), 3000);
                         }}
@@ -860,6 +871,24 @@ export default function TailorPage() {
                           <path d="M15 6H19V8H17V11H19V13H17V16H19V18H15V6Z" fill="currentColor" />
                         </svg>
                         TXT
+                      </button>
+
+                      {/* RTF button */}
+                      <button
+                        onClick={() => {
+                          downloadAsRtf(coverLetter, "cover-letter.rtf");
+                          setSuccess("Cover letter downloaded as RTF successfully!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="px-5 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors flex items-center"
+                        title="Download as RTF"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2H6Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M8 13H12M16 17H12M12 13V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        RTF
                       </button>
                     </div>
                     

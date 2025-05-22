@@ -20,7 +20,7 @@ GitHub: [github.com/vuhung16au/ai-resume-jd-tailored](https://github.com/vuhung1
 
 - **Smart Resume Analysis**: Upload your resume in various formats (PDF, DOCX, TXT, RTF)
 - **Job Description Matching**: AI-powered analysis to identify key skills and requirements
-- **Multiple Export Formats**: Download your tailored resume as Text or DOCX
+- **Multiple Export Formats**: Download your tailored resume as Text, DOCX, RTF, or Markdown
 - **Side-by-Side Comparison**: Compare your original and tailored resumes
 - **One-Click Copying**: Copy the entire tailored resume to clipboard
 - **Sample Data**: Try the tool with pre-loaded sample resume and job description
