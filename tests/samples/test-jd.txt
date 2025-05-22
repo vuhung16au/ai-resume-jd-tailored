@@ -1,0 +1,36 @@
+At Optus, we don't sit back and let the future happen to us - we're out there making it. By expanding into new technology and relentlessly improving every day, we're creating a better tomorrow for all Australians.
+
+We believe in the strength of a vibrant, diverse and inclusive workforce where backgrounds, perspectives and life experiences of our people help us innovate and create strong connections with our customers.
+
+The Billing and Credit function is part of the Group Finance and Corporate division which is responsible for the overall management of Billing and Credit Management across Optus. This includes credit and fraud risk assessment, collections and recoveries, and billing and payments. As part of this high performing Billing and Credit team, you will live their vision - We onboard and retain our customers efficiently whilst delivering timely, simple, accurate billing and payments experience.
+
+Your day in the life of a Senior Data Scientist at Optus
+
+Lead delivery of all advanced scientific data models and analytics across Optus Group, supporting both Credit decisions and Fraud risk management, including the development and maintenance of credit scorecards, policy rule updates, payment fraud detection, device intelligence, network fraud analytics, and fraud model improvements.
+Own the design and strategy/policy changes responsible for managing over 3 million applications per year through automated systems decisions within SLA.
+Plan and supervise the key priorities for Group Credit and Finance to meet annual goals and business targets.
+Partner with all relevant senior stakeholders to deliver improved financial performance across Optus Group.
+Translate complex analysis into easily understood concepts and reporting for business partners.
+Why you are our next professional
+
+Experience in a Finance/Data Science role with a specialisation in data modelling and strong capability in performing data processing tasks (auditing, preparation, transformation, aggregation) using Databricks, SQL, Python or R.
+3-7 years proven experience in developing credit risk evaluation models or fraud prevention/detection models for customer originations, with background in payment fraud, device intelligence data, and Collections considered highly desirable.
+Proven ability to lead the development and deployment of machine learning models, ensuring ongoing alignment with business requirements, using supervised/unsupervised techniques and libraries such as scikit-learn, TensorFlow, and XGBoost.
+Experience with model risk management frameworks, including real-world fraud detection applications across the customer origination journey.
+Ability to work in an environment of constant change and diverse challenges within a highly complicated market, backed by strong analytical problem-solving, communication and presentation skills.
+BA/BS degree in Computer Science, Statistics, Mathematics, Engineering, Analytics, or an equivalent applied quantitative field.
+What's in it for you?
+
+3 days in the office, 2 days remote - with flexible hours to suit!
+Inclusive paid parental leave, up to 16 weeks for the primary care giver
+All Optus employees have access to resources, webinars and support via the ‘Parents at Work portal'
+Own your own growth by accessing an extensive online and facilitator led learning catalogue.
+Connect at work through our employee-led volunteer groups: Culture Connect, Elevate Women, Disability Network, Express Yourself (LGBTQIA+), United Veterans, Yarn Network, Wellbeing Network and Young Professionals.
+Vibrant campus life, variety of facilities including restaurants, cafes, gymnasium, GP, and post office
+Free Optus bus from Macquarie University Metro Station (every 6-8 minutes); morning and afternoon!
+Keen to see what it's really like to work at Optus? Search #OptusLife on LinkedIn to go behind the scenes!
+
+At Optus, we are strengthened by others and that means valuing diversity and saying ‘yes' to embracing individual differences. We are committed to ensuring that our application process provides an equal employment opportunity to all job seekers, including individuals from diverse gender, cultural and linguistic backgrounds, individuals with a disability, individuals identifying as being part of the LGBTQIA+ community, individuals who may have served in the armed forces or who identify as Aboriginal and/or Torres Strait Islander. We also want to do our best to make our recruitment process inclusive. If you require any adjustments or accessibility support to participate fairly and equitably in the recruitment process, please email AccessibleRecruitment@optus.com.au or call 1800 309 170. We're here to help. When you contact us, please advise your preferred method of contact and we will be in touch within 48 hours.
+
+For more information on Diversity, Inclusion & Belonging at Optus, please visit https://www.optus.com.au/about/inclusion-diversity.
+#LI-DD1
