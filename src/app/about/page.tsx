@@ -22,6 +22,9 @@ export default function AboutPage() {
               <p className="text-gray-700 dark:text-gray-300 mb-4">
                 The conversation turned to Applicant Tracking Systems (ATS) and how these automated screening tools often filter out qualified candidates simply because their resumes don't contain the right keywords. We realized there was an opportunity to use AI to level the playing field.
               </p>
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                The collaboration was built on curiosity, and shared values, but quickly evolved into ambition. Experimental ideas and discoveries developed into tangible designs.
+              </p>
               <p className="text-gray-700 dark:text-gray-300">
                 As a team already passionate about AI and machine learning, we decided to build something that could help job seekers optimize their resumes for specific job descriptions, increasing their chances of getting past that initial automated screening and into the hands of actual recruiters.
               </p>
