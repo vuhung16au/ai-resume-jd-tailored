@@ -84,3 +84,26 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Google Gemini AI for powering the intelligent resume tailoring
 - Next.js and Vercel for the application framework
 - All contributors to the open-source libraries used in this project
+
+## Screenshots
+
+<div style="display: flex; justify-content: space-between; margin: 20px 0;">
+  <div style="text-align: center; width: 30%;">
+    <a href="public/images/generated-cover-letter.png" target="_blank">
+      <img src="public/images/generated-cover-letter.png" alt="Generated Cover Letter" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+      <p>Generated Cover Letter</p>
+    </a>
+  </div>
+  <div style="text-align: center; width: 30%;">
+    <a href="public/images/tailored-resume.png" target="_blank">
+      <img src="public/images/tailored-resume.png" alt="Tailored Resume" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+      <p>Tailored Resume</p>
+    </a>
+  </div>
+  <div style="text-align: center; width: 30%;">
+    <a href="public/images/your-resume-and-jd.png" target="_blank">
+      <img src="public/images/your-resume-and-jd.png" alt="Your Resume and JD" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+      <p>Your Resume and JD</p>
+    </a>
+  </div>
+</div>

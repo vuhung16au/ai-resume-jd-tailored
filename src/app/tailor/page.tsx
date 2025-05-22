@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { generateResumeDocx } from "@/utils/docxGenerator";
+import { downloadAsText, downloadAsMarkdown, downloadAsDocx, downloadAsPdf } from "@/utils/downloadUtils";
 
 export default function TailorPage() {
   const [resumeText, setResumeText] = useState("");
@@ -76,37 +77,7 @@ export default function TailorPage() {
     return markdown;
   };
 
-  // Function to download the resume as a DOCX file
-  const downloadAsDocx = async () => {
-    try {
-      setSuccess("");
-      setError("");
-      
-      // Generate and download the DOCX
-      const blob = await generateResumeDocx(tailoredResume);
-      
-      // Create a download link
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'tailored-resume.docx';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-      
-      // Show success message
-      setSuccess("Resume downloaded as DOCX successfully!");
-      
-      // Clear success message after 3 seconds
-      setTimeout(() => {
-        setSuccess("");
-      }, 3000);
-    } catch (err) {
-      console.error("Error generating DOCX:", err);
-      setError("Failed to generate DOCX file");
-    }
-  };
+  // Old downloadAsDocx function removed in favor of the util function
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setUploadError("");
@@ -495,10 +466,10 @@ export default function TailorPage() {
                       </svg>
                       Resume Comparison
                     </h2>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
+                      {/* Copy to clipboard */}
                       <button
                         onClick={() => {
-                          // Copy to clipboard
                           navigator.clipboard.writeText(tailoredResume);
                           setSuccess("Resume copied to clipboard!");
                           setTimeout(() => setSuccess(""), 3000);
@@ -596,59 +567,120 @@ export default function TailorPage() {
                     </div>
                   </div>
                   
-                  <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
-                    <button
-                      onClick={() => {
-                        setTailoredResume("");
-                        setCoverLetter("");
-                        setSuccess("");
-                        setError("");
-                        setResumeFilename("");
-                        setJdFilename("");
-                      }}
-                      className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      <span className="flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                        </svg>
-                        Start Over
-                      </span>
-                    </button>
-                    
-                    <div className="flex gap-3">
+                  {/* Download buttons row */}
+                  <div className="mt-6 flex flex-col space-y-4">
+                    <div className="flex flex-wrap justify-center gap-4">
+                      {/* PDF button */}
                       <button
                         onClick={() => {
-                          const element = document.createElement("a");
-                          const file = new Blob([tailoredResume], { type: "text/plain" });
-                          element.href = URL.createObjectURL(file);
-                          element.download = "tailored-resume.txt";
-                          document.body.appendChild(element);
-                          element.click();
-                          document.body.removeChild(element);
-                          
-                          setSuccess("Text file downloaded successfully!");
+                          try {
+                            downloadAsPdf(tailoredResume, "tailored-resume.pdf");
+                            setSuccess("Resume downloaded as PDF successfully!");
+                            setTimeout(() => setSuccess(""), 3000);
+                          } catch (err) {
+                            console.error("Error generating PDF:", err);
+                            setError("Failed to generate PDF file");
+                          }
+                        }}
+                        className="px-5 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center"
+                        title="Download as PDF"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 18H17V16H7V18Z" fill="currentColor" />
+                          <path d="M17 14H7V12H17V14Z" fill="currentColor" />
+                          <path d="M7 10H11V8H7V10Z" fill="currentColor" />
+                          <path fillRule="evenodd" clipRule="evenodd" d="M6 2C4.34315 2 3 3.34315 3 5V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V9C21 5.13401 17.866 2 14 2H6ZM6 4H13V9H19V19C19 19.5523 18.5523 20 18 20H6C5.44772 20 5 19.5523 5 19V5C5 4.44772 5.44772 4 6 4ZM15 4.10002C16.6113 4.4271 17.9413 5.52906 18.584 7H15V4.10002Z" fill="currentColor" />
+                        </svg>
+                        PDF
+                      </button>
+
+                      {/* DOCX button */}
+                      <button
+                        onClick={() => {
+                          try {
+                            downloadAsDocx(tailoredResume, "tailored-resume.docx")
+                              .then(result => {
+                                if (result.success) {
+                                  setSuccess("Resume downloaded as DOCX successfully!");
+                                  setTimeout(() => setSuccess(""), 3000);
+                                } else {
+                                  setError("Failed to generate DOCX file");
+                                }
+                              })
+                              .catch(err => {
+                                console.error("Error generating DOCX:", err);
+                                setError("Failed to generate DOCX file");
+                              });
+                          } catch (error) {
+                            console.error("Error generating DOCX:", error);
+                            setError("Failed to generate DOCX file");
+                          }
+                        }}
+                        className="px-5 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors flex items-center"
+                        title="Download as DOCX"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15.535 3.515L20.485 8.465L21.95 7L14.05 0L12.586 1.465L14.071 2.95L8.465 8.556L9.879 9.97L15.535 3.515Z" fill="currentColor" />
+                          <path d="M2 8V24H22V8H2ZM20 22H4V10H20V22Z" fill="currentColor" />
+                          <path d="M8 16H16V18H8V16Z" fill="currentColor" />
+                          <path d="M8 12H16V14H8V12Z" fill="currentColor" />
+                        </svg>
+                        DOCX
+                      </button>
+
+                      {/* Markdown button */}
+                      <button
+                        onClick={() => {
+                          downloadAsMarkdown(convertToMarkdown(tailoredResume), "tailored-resume.md");
+                          setSuccess("Resume downloaded as Markdown successfully!");
                           setTimeout(() => setSuccess(""), 3000);
                         }}
-                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors"
+                        className="px-5 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition-colors flex items-center"
+                        title="Download as Markdown"
                       >
-                        <span className="flex items-center justify-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                          </svg>
-                          Download as Text
-                        </span>
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" clipRule="evenodd" d="M3 3C1.34315 3 0 4.34315 0 6V18C0 19.6569 1.34315 21 3 21H21C22.6569 21 24 19.6569 24 18V6C24 4.34315 22.6569 3 21 3H3ZM2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6V18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18V6ZM5 8.5V16H7V11.5L9 14.5L11 11.5V16H13V8.5H11L9 11.5L7 8.5H5ZM14 8.5H16L18 12.5L20 8.5H22V16H20V11.5L18 15.5L16 11.5V16H14V8.5Z" fill="currentColor" />
+                        </svg>
+                        MD
                       </button>
-                      
+
+                      {/* TXT button */}
                       <button
-                        onClick={downloadAsDocx}
-                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                        onClick={() => {
+                          downloadAsText(tailoredResume, "tailored-resume.txt");
+                          setSuccess("Resume downloaded as TXT successfully!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="px-5 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-700 transition-colors flex items-center"
+                        title="Download as Text"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" clipRule="evenodd" d="M3 24H21C22.6569 24 24 22.6569 24 21V3C24 1.34315 22.6569 0 21 0H3C1.34315 0 0 1.34315 0 3V21C0 22.6569 1.34315 24 3 24ZM2 3C2 2.44772 2.44772 2 3 2H21C21.5523 2 22 2.44772 22 3V21C22 21.5523 21.5523 22 21 22H3C2.44772 22 2 21.5523 2 21V3Z" fill="currentColor" />
+                          <path d="M7 8H5V6H13V8H11V18H9V8H7Z" fill="currentColor" />
+                          <path d="M15 6H19V8H17V11H19V13H17V16H19V18H15V6Z" fill="currentColor" />
+                        </svg>
+                        TXT
+                      </button>
+                    </div>
+                    
+                    {/* Start Over button */}
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => {
+                          setTailoredResume("");
+                          setCoverLetter("");
+                          setSuccess("");
+                          setError("");
+                          setResumeFilename("");
+                          setJdFilename("");
+                        }}
+                        className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
                         <span className="flex items-center justify-center">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                           </svg>
-                          Download as DOCX
+                          Start Over
                         </span>
                       </button>
                     </div>
@@ -706,50 +738,34 @@ export default function TailorPage() {
                     {coverLetter}
                   </div>
                   
-                  <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
-                    <button
-                      onClick={() => {
-                        setTailoredResume("");
-                        setCoverLetter("");
-                        setSuccess("");
-                        setError("");
-                        setResumeFilename("");
-                        setJdFilename("");
-                      }}
-                      className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      <span className="flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                        </svg>
-                        Start Over
-                      </span>
-                    </button>
-                    
-                    <div className="flex gap-3">
+                  {/* Download buttons row */}
+                  <div className="mt-6 flex flex-col space-y-4">
+                    <div className="flex flex-wrap justify-center gap-4">
+                      {/* PDF button */}
                       <button
                         onClick={() => {
-                          const element = document.createElement("a");
-                          const file = new Blob([coverLetter], { type: "text/plain" });
-                          element.href = URL.createObjectURL(file);
-                          element.download = "cover-letter.txt";
-                          document.body.appendChild(element);
-                          element.click();
-                          document.body.removeChild(element);
-                          
-                          setSuccess("Cover letter downloaded as text file!");
-                          setTimeout(() => setSuccess(""), 3000);
+                          try {
+                            downloadAsPdf(coverLetter, "cover-letter.pdf");
+                            setSuccess("Cover letter downloaded as PDF successfully!");
+                            setTimeout(() => setSuccess(""), 3000);
+                          } catch (err) {
+                            console.error("Error generating PDF:", err);
+                            setError("Failed to generate PDF file");
+                          }
                         }}
-                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors"
+                        className="px-5 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center"
+                        title="Download as PDF"
                       >
-                        <span className="flex items-center justify-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                          </svg>
-                          Download as Text
-                        </span>
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 18H17V16H7V18Z" fill="currentColor" />
+                          <path d="M17 14H7V12H17V14Z" fill="currentColor" />
+                          <path d="M7 10H11V8H7V10Z" fill="currentColor" />
+                          <path fillRule="evenodd" clipRule="evenodd" d="M6 2C4.34315 2 3 3.34315 3 5V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V9C21 5.13401 17.866 2 14 2H6ZM6 4H13V9H19V19C19 19.5523 18.5523 20 18 20H6C5.44772 20 5 19.5523 5 19V5C5 4.44772 5.44772 4 6 4ZM15 4.10002C16.6113 4.4271 17.9413 5.52906 18.584 7H15V4.10002Z" fill="currentColor" />
+                        </svg>
+                        PDF
                       </button>
-                      
+
+                      {/* DOCX button */}
                       <button
                         onClick={async () => {
                           try {
@@ -770,13 +786,78 @@ export default function TailorPage() {
                             setError("Failed to generate DOCX file");
                           }
                         }}
-                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                        className="px-5 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors flex items-center"
+                        title="Download as DOCX"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15.535 3.515L20.485 8.465L21.95 7L14.05 0L12.586 1.465L14.071 2.95L8.465 8.556L9.879 9.97L15.535 3.515Z" fill="currentColor" />
+                          <path d="M2 8V24H22V8H2ZM20 22H4V10H20V22Z" fill="currentColor" />
+                          <path d="M8 16H16V18H8V16Z" fill="currentColor" />
+                          <path d="M8 12H16V14H8V12Z" fill="currentColor" />
+                        </svg>
+                        DOCX
+                      </button>
+
+                      {/* Markdown button */}
+                      <button
+                        onClick={() => {
+                          downloadAsMarkdown(convertToMarkdown(coverLetter), "cover-letter.md");
+                          setSuccess("Cover letter downloaded as Markdown successfully!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="px-5 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition-colors flex items-center"
+                        title="Download as Markdown"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" clipRule="evenodd" d="M3 3C1.34315 3 0 4.34315 0 6V18C0 19.6569 1.34315 21 3 21H21C22.6569 21 24 19.6569 24 18V6C24 4.34315 22.6569 3 21 3H3ZM2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6V18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18V6ZM5 8.5V16H7V11.5L9 14.5L11 11.5V16H13V8.5H11L9 11.5L7 8.5H5ZM14 8.5H16L18 12.5L20 8.5H22V16H20V11.5L18 15.5L16 11.5V16H14V8.5Z" fill="currentColor" />
+                        </svg>
+                        MD
+                      </button>
+
+                      {/* TXT button */}
+                      <button
+                        onClick={() => {
+                          const element = document.createElement("a");
+                          const file = new Blob([coverLetter], { type: "text/plain" });
+                          element.href = URL.createObjectURL(file);
+                          element.download = "cover-letter.txt";
+                          document.body.appendChild(element);
+                          element.click();
+                          document.body.removeChild(element);
+                          
+                          setSuccess("Cover letter downloaded as text file!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="px-5 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-700 transition-colors flex items-center"
+                        title="Download as Text"
+                      >
+                        <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" clipRule="evenodd" d="M3 24H21C22.6569 24 24 22.6569 24 21V3C24 1.34315 22.6569 0 21 0H3C1.34315 0 0 1.34315 0 3V21C0 22.6569 1.34315 24 3 24ZM2 3C2 2.44772 2.44772 2 3 2H21C21.5523 2 22 2.44772 22 3V21C22 21.5523 21.5523 22 21 22H3C2.44772 22 2 21.5523 2 21V3Z" fill="currentColor" />
+                          <path d="M7 8H5V6H13V8H11V18H9V8H7Z" fill="currentColor" />
+                          <path d="M15 6H19V8H17V11H19V13H17V16H19V18H15V6Z" fill="currentColor" />
+                        </svg>
+                        TXT
+                      </button>
+                    </div>
+                    
+                    {/* Start Over button */}
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => {
+                          setTailoredResume("");
+                          setCoverLetter("");
+                          setSuccess("");
+                          setError("");
+                          setResumeFilename("");
+                          setJdFilename("");
+                        }}
+                        className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
                         <span className="flex items-center justify-center">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                           </svg>
-                          Download as DOCX
+                          Start Over
                         </span>
                       </button>
                     </div>
