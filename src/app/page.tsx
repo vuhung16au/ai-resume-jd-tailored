@@ -27,14 +27,13 @@ export default function Home() {
     // Split the text by lines
     const lines = text.split('\n');
     let markdown = '';
-    // Variable is assigned but never used - removing the declaration
-    // let inList = false;
+    let inList = false;
     
     lines.forEach((line, index) => {
       // Skip empty lines, but add them to preserve formatting
       if (line.trim() === '') {
         markdown += '\n';
-        // inList = false; // Not needed since variable is unused
+        inList = false; 
         return;
       }
       

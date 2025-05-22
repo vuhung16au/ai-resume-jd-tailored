@@ -14,8 +14,10 @@ export const config = {
   },
 };
 
-// Function to parse form data - Removed because it's unused
-/* 
+// Function to parse form data was removed because it's unused
+// Commenting out this function since it was causing build errors
+
+/*
 async function parseFormData(_req: NextRequest) {
   // Create a temporary directory
   const tempDir = join(os.tmpdir(), 'resume-uploads');
@@ -24,7 +26,6 @@ async function parseFormData(_req: NextRequest) {
   } catch (error) {
     // Directory might already exist
   }
-*/
 
   return new Promise<{
     fields: formidable.Fields;
@@ -47,6 +48,7 @@ async function parseFormData(_req: NextRequest) {
     // });
   });
 }
+*/
 
 // Function to extract text from files - Removed because it's unused
 /*
@@ -71,6 +73,7 @@ async function extractTextFromFile(file: Record<string, unknown>): Promise<strin
     throw new Error('Unsupported file type');
   }
 }
+*/
 
 export async function POST(_req: NextRequest) {
   try {

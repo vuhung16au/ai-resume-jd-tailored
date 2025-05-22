@@ -11,7 +11,7 @@ function parseRtfToPlainText(rtfContent: string): string {
     // More comprehensive RTF parsing approach
     
     // State tracking variables
-    const isInContent = false;
+    let isInContent = false;
     let skipNextChar = false;
     let depth = 0;
     let plainText = '';
