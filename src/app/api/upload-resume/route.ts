@@ -99,7 +99,16 @@ export async function POST(_req: NextRequest) {
     // const resumeText = await extractTextFromFile(resumeFile);
     // return NextResponse.json({ resumeText });
   } catch (error) {
+    // Improved error logging
     console.error('Error processing file upload:', error);
+    const errorDetails = error instanceof Error 
+      ? {
+          message: error.message,
+          cause: error.cause,
+          stack: error.stack
+        }
+      : { message: 'Unknown error occurred' };
+    console.debug('Detailed error information:', errorDetails);
     return NextResponse.json(
       { error: 'Failed to process file upload' },
       { status: 500 }

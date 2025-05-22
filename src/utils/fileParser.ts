@@ -25,12 +25,11 @@ export async function parseFile(file: File): Promise<string> {
     const data = await response.json();
     return data.text;
   } catch (error) {
+    // Improved error logging
     console.error('Error parsing file:', error);
-    // Preserve the original error message if it exists
-    if (error instanceof Error && error.message) {
-      throw error;
-    } else {
-      throw new Error('Failed to parse file');
+    if (error instanceof Error) {
+      console.error('Stack:', error.stack);
     }
+    throw error;
   }
 }

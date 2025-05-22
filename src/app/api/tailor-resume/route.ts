@@ -28,7 +28,6 @@ export async function POST(req: NextRequest) {
       });
     } else {
       // Return a friendly error message with 200 status
-      // Using 200 instead of error status so the frontend can easily display the message
       return NextResponse.json({ 
         error: true, 
         message: result.error,
@@ -36,9 +35,8 @@ export async function POST(req: NextRequest) {
       }, { status: 200 });
     }
   } catch (error) {
+    // Improved error logging
     console.error('Error processing resume:', error);
-    
-    // Log detailed error information for debugging
     const errorDetails = error instanceof Error 
       ? {
           message: error.message,
@@ -46,11 +44,8 @@ export async function POST(req: NextRequest) {
           stack: error.stack
         }
       : { message: 'Unknown error occurred' };
-      
     console.debug('Detailed error information:', errorDetails);
-    
-    // Return a user-friendly error message with a 200 status code
-    // so the frontend can easily display it without handling HTTP error codes
+    // Return a user-friendly error message
     return NextResponse.json(
       { 
         error: true,

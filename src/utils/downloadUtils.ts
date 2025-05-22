@@ -49,7 +49,11 @@ export const downloadAsDocx = async (content: string, filename: string) => {
     window.URL.revokeObjectURL(url);
     return { success: true };
   } catch (error) {
+    // Improved error logging
     console.error('Error generating DOCX:', error);
+    if (error instanceof Error) {
+      console.error('Stack:', error.stack);
+    }
     return { success: false, error };
   }
 };
@@ -92,7 +96,11 @@ export const downloadAsPdf = (content: string, filename: string) => {
     doc.save(filename);
     return { success: true };
   } catch (error) {
+    // Improved error logging
     console.error('Error generating PDF:', error);
+    if (error instanceof Error) {
+      console.error('Stack:', error.stack);
+    }
     return { success: false, error };
   }
 };

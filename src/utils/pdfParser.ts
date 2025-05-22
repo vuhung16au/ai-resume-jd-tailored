@@ -42,11 +42,19 @@ export async function extractTextFromPdf(buffer: ArrayBuffer): Promise<string> {
       
       return info;
     } catch (loadError: any) {
-      // Rethrow errors
+      // Improved error logging
+      console.error('Error loading PDF:', loadError);
+      if (loadError instanceof Error) {
+        console.error('Stack:', loadError.stack);
+      }
       throw loadError;
     }
   } catch (error: any) {
-    console.error('Error extracting PDF info:', error);
+    // Improved error logging
+    console.error('Error extracting text from PDF:', error);
+    if (error instanceof Error) {
+      console.error('Stack:', error.stack);
+    }
     throw error;
   }
 }
@@ -83,13 +91,12 @@ export async function extractFullText(buffer: ArrayBuffer): Promise<string> {
       return '';
     }
   } catch (error: any) {
-    // Use enhanced error logging for errors
-    console.error('Error extracting full text from PDF:');
-    logPdfError(error);
-    
-    // Return empty string on error rather than throwing
-    // This allows the fallback to basic info to work
-    return '';
+    // Improved error logging
+    console.error('Error parsing PDF:', error);
+    if (error instanceof Error) {
+      console.error('Stack:', error.stack);
+    }
+    throw error;
   }
 }
 
@@ -112,7 +119,11 @@ export async function getPdfInfo(buffer: ArrayBuffer): Promise<string> {
     
     return `PDF document with ${pageCount} pages. Text extraction is limited in this format.`;
   } catch (error) {
-    console.error('Error getting PDF info:', error);
+    // Improved error logging
+    console.error('Error in PDF utility:', error);
+    if (error instanceof Error) {
+      console.error('Stack:', error.stack);
+    }
     throw error;
   }
 }

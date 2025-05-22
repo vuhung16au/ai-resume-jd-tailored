@@ -174,9 +174,12 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
           }
         };
       } catch (parseError) {
+        // Improved error logging
         console.error("Failed to parse JSON response:", parseError);
+        if (parseError instanceof Error) {
+          console.error('Stack:', parseError.stack);
+        }
         console.log("Response text:", responseText);
-        
         // Fallback: If we can't parse the JSON, try to extract the tailored resume as the whole response
         return { 
           success: true, 
@@ -190,7 +193,11 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
       }
       
     } catch (error: any) {
+      // Improved error logging
       console.error(`Error generating content with model ${modelName}:`, error);
+      if (error instanceof Error) {
+        console.error('Stack:', error.stack);
+      }
       lastError = error;
       
       // If this is not a quota error, or if we're on the last model option, don't try again
@@ -220,7 +227,11 @@ export const testGeminiAPIConnection = async (): Promise<{success: boolean, mess
     const result = await model.generateContent("Hello, are you online?");
     return { success: true, message: "API is responsive" };
   } catch (error: any) {
+    // Improved error logging
     console.error("API test connection failed:", error);
+    if (error instanceof Error) {
+      console.error('Stack:', error.stack);
+    }
     return { success: false, message: formatErrorMessage(error) };
   }
 };

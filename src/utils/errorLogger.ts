@@ -33,4 +33,9 @@ export function logPdfError(error: any): void {
     console.error('- Note: This appears to be an internal test file error from pdf-parse');
     console.error('  Try using the noNative and version options when calling pdf-parse');
   }
+  
+  // Generic fallback for unknown errors
+  if (!error.message && !error.stack) {
+    console.error('- Unknown error with no message or stack trace');
+  }
 }
