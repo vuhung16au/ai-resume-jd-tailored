@@ -17,20 +17,13 @@ export default function Home() {
               Our AI analyzes the job requirements and optimizes your resume to increase your chances of getting interviews.
             </p>
             <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
+              <div className="rounded-md shadow w-full">
                 <Link 
                   href="/tailor" 
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
+                  className="w-full flex items-center justify-center px-12 py-5 border border-transparent text-2xl font-bold rounded-lg text-white bg-blue-600 hover:bg-blue-700 md:py-6 md:text-2xl md:px-16 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  style={{ minHeight: '64px' }}
                 >
-                  Start Tailoring Now
-                </Link>
-              </div>
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <Link 
-                  href="/how-it-works" 
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 dark:text-blue-400 dark:bg-gray-800 dark:hover:bg-gray-700 md:py-4 md:text-lg md:px-10"
-                >
-                  Learn How It Works
+                  Start Tailoring Now!
                 </Link>
               </div>
             </div>
