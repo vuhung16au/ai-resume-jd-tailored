@@ -7,6 +7,9 @@ export default function TailorPage() {
   const [resumeText, setResumeText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [tailoredResume, setTailoredResume] = useState("");
+  const [coverLetter, setCoverLetter] = useState("");
+  const [resumeMatchExplanation, setResumeMatchExplanation] = useState("");
+  const [coverLetterExplanation, setCoverLetterExplanation] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -15,6 +18,7 @@ export default function TailorPage() {
   const [processingStep, setProcessingStep] = useState(0);
   const [resumeFilename, setResumeFilename] = useState<string>("");
   const [jdFilename, setJdFilename] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<"resume" | "coverLetter">("resume");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const jdFileInputRef = useRef<HTMLInputElement>(null);
   
@@ -253,10 +257,13 @@ export default function TailorPage() {
       
       const data = await response.json();
       setTailoredResume(data.tailoredResume);
+      setCoverLetter(data.coverLetter || "");
+      setResumeMatchExplanation(data.resumeMatchExplanation || "");
+      setCoverLetterExplanation(data.coverLetterExplanation || "");
       
       // Show success message after getting the result
       setError(""); // Clear any existing error
-      setSuccess("Resume successfully tailored for the job description!");
+      setSuccess("Resume and cover letter successfully tailored for the job description!");
       
       // Clear success message after 5 seconds
       setTimeout(() => {
@@ -419,7 +426,7 @@ export default function TailorPage() {
                       <span className="font-medium">
                         {processingStep === 1 && "Analyzing your resume and job description..."}
                         {processingStep === 2 && "Identifying key skills and experience matches..."}
-                        {processingStep === 3 && "Generating your tailored resume..."}
+                        {processingStep === 3 && "Generating your tailored resume and cover letter..."}
                       </span>
                     </div>
                     
@@ -433,7 +440,7 @@ export default function TailorPage() {
                   type="submit"
                   className="px-8 py-3 rounded-md bg-blue-600 text-white font-medium text-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-md hover:shadow-lg"
                 >
-                  Tailor My Resume
+                  Tailor Resume & Cover Letter
                 </button>
               )}
             </div>
@@ -441,161 +448,341 @@ export default function TailorPage() {
         ) : (
           <div className="space-y-8">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                  </svg>
-                  Resume Comparison
-                </h2>
-                <div className="flex gap-2">
+              {/* Tab Navigation */}
+              <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
+                <nav className="flex space-x-4">
                   <button
-                    onClick={() => {
-                      // Copy to clipboard
-                      navigator.clipboard.writeText(tailoredResume);
-                      setSuccess("Resume copied to clipboard!");
-                      setTimeout(() => setSuccess(""), 3000);
-                    }}
-                    className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                    title="Copy to clipboard"
+                    onClick={() => setActiveTab("resume")}
+                    className={`py-2 px-3 text-sm font-medium ${
+                      activeTab === "resume"
+                        ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
+                        : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                    }`}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-                    </svg>
+                    <div className="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                      </svg>
+                      Tailored Resume
+                    </div>
                   </button>
-                </div>
-              </div>
-              
-              {success && (
-                <div className="bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 p-4 rounded-md mb-4">
-                  {success}
-                </div>
-              )}
-              
-              {error && (
-                <div className="bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 p-4 rounded-md mb-4">
-                  {error}
-                </div>
-              )}
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Original Resume</h3>
-                    <button
-                      onClick={() => {
-                        const markdownContent = convertToMarkdown(resumeText);
-                        const element = document.createElement("a");
-                        const file = new Blob([markdownContent], { type: "text/markdown" });
-                        element.href = URL.createObjectURL(file);
-                        element.download = "original-resume.md";
-                        document.body.appendChild(element);
-                        element.click();
-                        document.body.removeChild(element);
-                        
-                        setSuccess("Original resume downloaded as markdown!");
-                        setTimeout(() => setSuccess(""), 3000);
-                      }}
-                      className="text-sm text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 flex items-center"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                      </svg>
-                      Download as Markdown
-                    </button>
-                  </div>
-                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px]">
-                    {resumeText}
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Tailored Resume</h3>
-                    <button
-                      onClick={() => {
-                        const markdownContent = convertToMarkdown(tailoredResume);
-                        const element = document.createElement("a");
-                        const file = new Blob([markdownContent], { type: "text/markdown" });
-                        element.href = URL.createObjectURL(file);
-                        element.download = "tailored-resume.md";
-                        document.body.appendChild(element);
-                        element.click();
-                        document.body.removeChild(element);
-                        
-                        setSuccess("Tailored resume downloaded as markdown!");
-                        setTimeout(() => setSuccess(""), 3000);
-                      }}
-                      className="text-sm text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 flex items-center"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                      </svg>
-                      Download as Markdown
-                    </button>
-                  </div>
-                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px]">
-                    {tailoredResume}
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
-                <button
-                  onClick={() => {
-                    setTailoredResume("");
-                    setSuccess("");
-                    setError("");
-                    setResumeFilename("");
-                    setJdFilename("");
-                  }}
-                  className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <span className="flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                    </svg>
-                    Start Over
-                  </span>
-                </button>
-                
-                <div className="flex gap-3">
                   <button
-                    onClick={() => {
-                      const element = document.createElement("a");
-                      const file = new Blob([tailoredResume], { type: "text/plain" });
-                      element.href = URL.createObjectURL(file);
-                      element.download = "tailored-resume.txt";
-                      document.body.appendChild(element);
-                      element.click();
-                      document.body.removeChild(element);
-                      
-                      setSuccess("Text file downloaded successfully!");
-                      setTimeout(() => setSuccess(""), 3000);
-                    }}
-                    className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors"
+                    onClick={() => setActiveTab("coverLetter")}
+                    className={`py-2 px-3 text-sm font-medium ${
+                      activeTab === "coverLetter"
+                        ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
+                        : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                    }`}
                   >
-                    <span className="flex items-center justify-center">
+                    <div className="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                      </svg>
+                      Cover Letter
+                    </div>
+                  </button>
+                </nav>
+              </div>
+
+              {/* Content based on active tab */}
+              {activeTab === "resume" ? (
+                <>
+                  {/* Resume Tab Content */}
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
                       </svg>
-                      Download as Text
-                    </span>
-                  </button>
+                      Resume Comparison
+                    </h2>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          // Copy to clipboard
+                          navigator.clipboard.writeText(tailoredResume);
+                          setSuccess("Resume copied to clipboard!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                        title="Copy to clipboard"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                   
-                  <button
-                    onClick={downloadAsDocx}
-                    className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-                  >
-                    <span className="flex items-center justify-center">
+                  {success && (
+                    <div className="bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 p-4 rounded-md mb-4">
+                      {success}
+                    </div>
+                  )}
+                  
+                  {error && (
+                    <div className="bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 p-4 rounded-md mb-4">
+                      {error}
+                    </div>
+                  )}
+                  
+                  {resumeMatchExplanation && (
+                    <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 p-4 rounded-md mb-6">
+                      <h3 className="font-medium text-blue-800 dark:text-blue-200 mb-2">Why this resume matches the job description:</h3>
+                      <div className="text-sm whitespace-pre-wrap">
+                        {resumeMatchExplanation}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Original Resume</h3>
+                        <button
+                          onClick={() => {
+                            const markdownContent = convertToMarkdown(resumeText);
+                            const element = document.createElement("a");
+                            const file = new Blob([markdownContent], { type: "text/markdown" });
+                            element.href = URL.createObjectURL(file);
+                            element.download = "original-resume.md";
+                            document.body.appendChild(element);
+                            element.click();
+                            document.body.removeChild(element);
+                            
+                            setSuccess("Original resume downloaded as markdown!");
+                            setTimeout(() => setSuccess(""), 3000);
+                          }}
+                          className="text-sm text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 flex items-center"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                          </svg>
+                          Download as Markdown
+                        </button>
+                      </div>
+                      <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px]">
+                        {resumeText}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Tailored Resume</h3>
+                        <button
+                          onClick={() => {
+                            const markdownContent = convertToMarkdown(tailoredResume);
+                            const element = document.createElement("a");
+                            const file = new Blob([markdownContent], { type: "text/markdown" });
+                            element.href = URL.createObjectURL(file);
+                            element.download = "tailored-resume.md";
+                            document.body.appendChild(element);
+                            element.click();
+                            document.body.removeChild(element);
+                            
+                            setSuccess("Tailored resume downloaded as markdown!");
+                            setTimeout(() => setSuccess(""), 3000);
+                          }}
+                          className="text-sm text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 flex items-center"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                          </svg>
+                          Download as Markdown
+                        </button>
+                      </div>
+                      <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px]">
+                        {tailoredResume}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
+                    <button
+                      onClick={() => {
+                        setTailoredResume("");
+                        setCoverLetter("");
+                        setSuccess("");
+                        setError("");
+                        setResumeFilename("");
+                        setJdFilename("");
+                      }}
+                      className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <span className="flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        Start Over
+                      </span>
+                    </button>
+                    
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => {
+                          const element = document.createElement("a");
+                          const file = new Blob([tailoredResume], { type: "text/plain" });
+                          element.href = URL.createObjectURL(file);
+                          element.download = "tailored-resume.txt";
+                          document.body.appendChild(element);
+                          element.click();
+                          document.body.removeChild(element);
+                          
+                          setSuccess("Text file downloaded successfully!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors"
+                      >
+                        <span className="flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                          </svg>
+                          Download as Text
+                        </span>
+                      </button>
+                      
+                      <button
+                        onClick={downloadAsDocx}
+                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                      >
+                        <span className="flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                          </svg>
+                          Download as DOCX
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Cover Letter Tab Content */}
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
                       </svg>
-                      Download as DOCX
-                    </span>
-                  </button>
-                </div>
-              </div>
+                      Cover Letter
+                    </h2>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(coverLetter);
+                          setSuccess("Cover letter copied to clipboard!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                        title="Copy to clipboard"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  {success && (
+                    <div className="bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 p-4 rounded-md mb-4">
+                      {success}
+                    </div>
+                  )}
+                  
+                  {error && (
+                    <div className="bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 p-4 rounded-md mb-4">
+                      {error}
+                    </div>
+                  )}
+
+                  {coverLetterExplanation && (
+                    <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 p-4 rounded-md mb-6">
+                      <h3 className="font-medium text-blue-800 dark:text-blue-200 mb-2">Why this cover letter matches the job description:</h3>
+                      <div className="text-sm whitespace-pre-wrap">
+                        {coverLetterExplanation}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap text-sm overflow-auto max-h-[600px]">
+                    {coverLetter}
+                  </div>
+                  
+                  <div className="mt-6 flex flex-col sm:flex-row justify-between gap-4">
+                    <button
+                      onClick={() => {
+                        setTailoredResume("");
+                        setCoverLetter("");
+                        setSuccess("");
+                        setError("");
+                        setResumeFilename("");
+                        setJdFilename("");
+                      }}
+                      className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <span className="flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        Start Over
+                      </span>
+                    </button>
+                    
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => {
+                          const element = document.createElement("a");
+                          const file = new Blob([coverLetter], { type: "text/plain" });
+                          element.href = URL.createObjectURL(file);
+                          element.download = "cover-letter.txt";
+                          document.body.appendChild(element);
+                          element.click();
+                          document.body.removeChild(element);
+                          
+                          setSuccess("Cover letter downloaded as text file!");
+                          setTimeout(() => setSuccess(""), 3000);
+                        }}
+                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors"
+                      >
+                        <span className="flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                          </svg>
+                          Download as Text
+                        </span>
+                      </button>
+                      
+                      <button
+                        onClick={async () => {
+                          try {
+                            const blob = await generateResumeDocx(coverLetter);
+                            const url = window.URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = 'cover-letter.docx';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            window.URL.revokeObjectURL(url);
+                            
+                            setSuccess("Cover letter downloaded as DOCX!");
+                            setTimeout(() => setSuccess(""), 3000);
+                          } catch (error) {
+                            console.error("Error generating DOCX:", error);
+                            setError("Failed to generate DOCX file");
+                          }
+                        }}
+                        className="flex-1 sm:flex-none px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                      >
+                        <span className="flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                          </svg>
+                          Download as DOCX
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

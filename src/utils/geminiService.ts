@@ -66,15 +66,27 @@ const formatErrorMessage = (error: any) => {
 };
 
 /**
- * Tailors a resume to match a specific job description using Gemini AI
+ * Tailors a resume and generates a cover letter to match a job description
  * @param {string} resumeText - The original resume text
- * @param {string} jobDescription - The job description to tailor the resume for
- * @returns {Promise<{success: boolean, data?: string, error?: string}>} - Object containing success status and either tailored resume or error message
+ * @param {string} jobDescription - The job description to tailor for
+ * @returns {Promise<{success: boolean, data?: any, error?: string}>} - Object containing success status and results
  */
-export const tailorResumeWithAI = async (resumeText: string, jobDescription: string): Promise<{success: boolean, data?: string, error?: string}> => {
+export const tailorResumeWithAI = async (resumeText: string, jobDescription: string): Promise<{
+  success: boolean, 
+  data?: { 
+    tailoredResume: string, 
+    coverLetter: string, 
+    resumeMatchExplanation: string,
+    coverLetterExplanation: string
+  }, 
+  error?: string
+}> => {
   // Create the prompt for the API
   const prompt = `
-    You are an expert resume tailor. Your goal is to rewrite or rephrase sections of a given resume to perfectly align with a provided job description, highlighting relevant skills and experiences.
+    You are an expert resume tailor and cover letter writer. Your goal is to help job seekers by:
+    1. Rewriting their resume to align with a job description
+    2. Creating a professional cover letter for the job
+    3. Explaining why both documents are well-tailored to the position
 
     **Resume:**
     ${resumeText}
@@ -88,8 +100,17 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
     3. Focus on quantifiable achievements where possible.
     4. Ensure the tailored resume sounds natural and professional.
     5. Do NOT invent new experiences or skills that are not present in the original resume. Only rephrase existing information.
-    6. Present the tailored resume in a clear, easy-to-read format, similar to a standard resume (e.g., with sections for Summary, Experience, Education, Skills).
-    7. Provide only the tailored resume, no conversational text before or after.
+    6. Create a compelling cover letter that highlights the candidate's most relevant skills and experiences for this specific job.
+    7. Provide brief explanations of why both the resume and cover letter are well-tailored to this job.
+
+    **Output Format:**
+    Provide your output in JSON format with the following structure:
+    {
+      "tailoredResume": "The complete tailored resume text...",
+      "coverLetter": "The complete cover letter text...",
+      "resumeMatchExplanation": "A brief explanation of why this resume matches the job description...",
+      "coverLetterExplanation": "A brief explanation of why this cover letter effectively supports the application..."
+    }
   `;
 
   // Try models in priority order
@@ -103,7 +124,7 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
   
   for (const modelName of modelOptions) {
     try {
-      console.log(`Attempting to tailor resume using model: ${modelName}`);
+      console.log(`Attempting to generate tailored resume and cover letter using model: ${modelName}`);
       
       // Get the generative model
       const model = genAI.getGenerativeModel({ 
@@ -111,7 +132,7 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
         generationConfig: {
           temperature: 0.4,
           topP: 0.8,
-          maxOutputTokens: 8192
+          maxOutputTokens: 12000
         },
         // Avoid using custom safety settings as they might not be compatible with all models
         // Rely on the default safety settings instead
@@ -122,16 +143,54 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
       const result = await model.generateContent(prompt);
       
       const response = await result.response;
-      const tailoredResume = response.text();
+      const responseText = response.text();
       
-      console.log(`Successfully tailored resume using ${modelName}`);
-      return { 
-        success: true, 
-        data: tailoredResume 
-      };
+      try {
+        // Parse the JSON response
+        const jsonStart = responseText.indexOf('{');
+        const jsonEnd = responseText.lastIndexOf('}') + 1;
+        
+        // Extract just the JSON part if there's any text around it
+        let jsonString = responseText;
+        if (jsonStart >= 0 && jsonEnd > jsonStart) {
+          jsonString = responseText.substring(jsonStart, jsonEnd);
+        }
+        
+        const parsedResponse = JSON.parse(jsonString);
+        
+        // Validate the parsed response has the required fields
+        if (!parsedResponse.tailoredResume || !parsedResponse.coverLetter) {
+          throw new Error("Invalid response format: missing required fields");
+        }
+        
+        console.log(`Successfully generated tailored resume and cover letter using ${modelName}`);
+        return { 
+          success: true, 
+          data: {
+            tailoredResume: parsedResponse.tailoredResume,
+            coverLetter: parsedResponse.coverLetter,
+            resumeMatchExplanation: parsedResponse.resumeMatchExplanation || "This resume has been tailored to highlight experiences and skills most relevant to the job description.",
+            coverLetterExplanation: parsedResponse.coverLetterExplanation || "This cover letter emphasizes your most relevant qualifications and expresses your interest in the position."
+          }
+        };
+      } catch (parseError) {
+        console.error("Failed to parse JSON response:", parseError);
+        console.log("Response text:", responseText);
+        
+        // Fallback: If we can't parse the JSON, try to extract the tailored resume as the whole response
+        return { 
+          success: true, 
+          data: {
+            tailoredResume: responseText,
+            coverLetter: "We couldn't generate a cover letter at this time. Please try again.",
+            resumeMatchExplanation: "This resume has been tailored to highlight experiences and skills most relevant to the job description.",
+            coverLetterExplanation: "Cover letter generation encountered an issue. Please try again."
+          }
+        };
+      }
       
     } catch (error: any) {
-      console.error(`Error tailoring resume with model ${modelName}:`, error);
+      console.error(`Error generating content with model ${modelName}:`, error);
       lastError = error;
       
       // If this is not a quota error, or if we're on the last model option, don't try again
@@ -146,7 +205,7 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
   console.error("All Gemini AI model attempts failed:", errorMessage);
   return {
     success: false,
-    error: "We couldn't generate your tailored resume at this time. Please try again later."
+    error: "We couldn't generate your tailored resume and cover letter at this time. Please try again later."
   };
 };
 

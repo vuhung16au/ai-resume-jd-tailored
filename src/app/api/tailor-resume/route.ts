@@ -15,19 +15,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Use our geminiService to tailor the resume
+    // Use our geminiService to tailor the resume and generate a cover letter
     const result = await tailorResumeWithAI(resumeText, jobDescription);
 
     if (result.success) {
-      // Return the successfully tailored resume
-      return NextResponse.json({ tailoredResume: result.data });
+      // Return the successfully tailored resume and cover letter
+      return NextResponse.json({
+        tailoredResume: result.data?.tailoredResume,
+        coverLetter: result.data?.coverLetter,
+        resumeMatchExplanation: result.data?.resumeMatchExplanation,
+        coverLetterExplanation: result.data?.coverLetterExplanation
+      });
     } else {
       // Return a friendly error message with 200 status
       // Using 200 instead of error status so the frontend can easily display the message
       return NextResponse.json({ 
         error: true, 
         message: result.error,
-        friendlyMessage: "We couldn't tailor your resume at this moment. Please try again later."
+        friendlyMessage: "We couldn't tailor your resume and cover letter at this moment. Please try again later."
       }, { status: 200 });
     }
   } catch (error) {
@@ -50,7 +55,7 @@ export async function POST(req: NextRequest) {
       { 
         error: true,
         message: 'We encountered a problem processing your request.',
-        friendlyMessage: 'We couldn\'t tailor your resume at this moment. Please try again later.',
+        friendlyMessage: 'We couldn\'t tailor your resume and generate your cover letter at this moment. Please try again later.',
         modelInfo: 'Using Gemini AI models with fallback strategy'
       },
       { status: 200 }
