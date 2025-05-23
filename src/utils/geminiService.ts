@@ -1,6 +1,7 @@
 // Gemini AI service for resume tailoring
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
+import { generatePrompt } from "../prompts";
 
 // Load environment variables from .env.local file
 dotenv.config({ path: '.env.local' });
@@ -81,46 +82,8 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
   }, 
   error?: string
 }> => {
-  // Create the prompt for the API
-  const prompt = `
-    You are an expert resume tailor and cover letter writer. Your goal is to help job seekers by:
-    1. Rewriting their resume to align with a job description
-    2. Creating a professional cover letter for the job
-    3. Explaining why both documents are well-tailored to the position
-
-    **Resume:**
-    ${resumeText}
-
-    **Job Description:**
-    ${jobDescription}
-
-    **Instructions:**
-    1. Analyze the job description for key skills, keywords, responsibilities, and qualifications.
-    2. Review the provided resume and identify sections that can be rephrased or emphasized to match the job description.
-    3. Focus on quantifiable achievements where possible.
-    4. Ensure the tailored resume sounds natural and professional.
-    5. Do NOT invent new experiences or skills that are not present in the original resume. Only rephrase existing information.
-    6. Create a compelling cover letter that highlights the candidate's most relevant skills and experiences for this specific job.
-    7. Provide brief explanations of why both the resume and cover letter are well-tailored to this job.
-
-    **Output Format:**
-    Provide your output in JSON format with the following structure:
-    {
-      "tailoredResume": "The complete tailored resume text...",
-      "coverLetter": "The complete cover letter text...",
-      "resumeMatchExplanation": "A detailed explanation of why this resume matches the job description...",
-      "coverLetterExplanation": "A detailed explanation of why this cover letter effectively supports the application..."
-    }
-
-    **Instructions:**
-    1. "resumeMatchExplanation" should explain how the resume aligns with the job description
-    2. "coverLetterExplanation" should explain how the cover letter supports the application
-    3. Use clear and concise language, avoiding jargon or overly complex sentences.
-    4. Ensure the JSON is valid and properly formatted.
-    5. Do not include any additional text outside of the JSON structure.
-    6. If you cannot generate a valid JSON response, return an error message in the same format.
-  `;
-
+  // Create the prompt using our new prompt generator
+  const prompt = generatePrompt(resumeText, jobDescription);
 
   // Try models in priority order
   const modelOptions = [
@@ -190,15 +153,26 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
           console.error('Stack:', parseError.stack);
         }
         console.log("Response text:", responseText);
-        // Fallback: If we can't parse the JSON, try to extract the tailored resume as the whole response
-        return { 
-          success: true, 
-          data: {
-            tailoredResume: responseText,
-            coverLetter: "We couldn't generate a cover letter at this time. Please try again.",
-            resumeMatchExplanation: "This resume has been tailored to highlight experiences and skills most relevant to the job description.",
-            coverLetterExplanation: "Cover letter generation encountered an issue. Please try again."
-          }
+        // Attempt to recover tailoredResume and coverLetter using regex
+        const tailoredResumeMatch = responseText.match(/"?tailoredResume"?\s*:\s*"([\s\S]*?)"\s*,/);
+        const coverLetterMatch = responseText.match(/"?coverLetter"?\s*:\s*"([\s\S]*?)"\s*,/);
+        const resumeMatchExplanationMatch = responseText.match(/"?resumeMatchExplanation"?\s*:\s*"([\s\S]*?)"\s*,/);
+        const coverLetterExplanationMatch = responseText.match(/"?coverLetterExplanation"?\s*:\s*"([\s\S]*?)"\s*[}\n]/);
+        if (tailoredResumeMatch && coverLetterMatch) {
+          return {
+            success: true,
+            data: {
+              tailoredResume: tailoredResumeMatch[1],
+              coverLetter: coverLetterMatch[1],
+              resumeMatchExplanation: resumeMatchExplanationMatch ? resumeMatchExplanationMatch[1] : "This resume has been tailored to highlight experiences and skills most relevant to the job description.",
+              coverLetterExplanation: coverLetterExplanationMatch ? coverLetterExplanationMatch[1] : "This cover letter emphasizes your most relevant qualifications and expresses your interest in the position."
+            }
+          };
+        }
+        // Fallback: If we can't parse or recover, provide clear error messages
+        return {
+          success: false,
+          error: "We couldn't parse the AI's response. Please try again or check your input."
         };
       }
       
