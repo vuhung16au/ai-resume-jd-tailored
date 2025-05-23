@@ -366,13 +366,30 @@ export default function TailorPage() {
                       {uploadError}
                     </div>
                   )}
-                  <textarea
-                    className="w-full h-80 p-3 border rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                    placeholder="Paste your resume text here..."
-                    value={resumeText}
-                    onChange={(e) => setResumeText(e.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <textarea
+                      className="w-full h-80 p-3 border rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                      placeholder="Paste your resume text here..."
+                      value={resumeText}
+                      onChange={(e) => setResumeText(e.target.value)}
+                      required
+                    />
+                    {/* Copy button inside textarea */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(resumeText);
+                        setSuccess("Resume copied to clipboard!");
+                        setTimeout(() => setSuccess(""), 3000);
+                      }}
+                      className="absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 z-10 bg-gray-100 dark:bg-gray-800 rounded-full shadow"
+                      title="Copy to clipboard"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -422,13 +439,30 @@ export default function TailorPage() {
                       {jdUploadError}
                     </div>
                   )}
-                  <textarea
-                    className="w-full h-80 p-3 border rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                    placeholder="Paste the job description here..."
-                    value={jobDescription}
-                    onChange={(e) => setJobDescription(e.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <textarea
+                      className="w-full h-80 p-3 border rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                      placeholder="Paste the job description here..."
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                      required
+                    />
+                    {/* Copy button inside textarea */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(jobDescription);
+                        setSuccess("Job description copied to clipboard!");
+                        setTimeout(() => setSuccess(""), 3000);
+                      }}
+                      className="absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 z-10 bg-gray-100 dark:bg-gray-800 rounded-full shadow"
+                      title="Copy to clipboard"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -571,7 +605,24 @@ export default function TailorPage() {
                   )}
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
+                    <div className="relative">
+                      <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px] relative">
+                        {/* Copy button inside text area */}
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(resumeText);
+                            setSuccess("Original resume copied to clipboard!");
+                            setTimeout(() => setSuccess(""), 3000);
+                          }}
+                          className="absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 z-10 bg-gray-100 dark:bg-gray-800 rounded-full shadow"
+                          title="Copy to clipboard"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                          </svg>
+                        </button>
+                        {resumeText}
+                      </div>
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Original Resume</h3>
                         <button
@@ -584,7 +635,6 @@ export default function TailorPage() {
                             document.body.appendChild(element);
                             element.click();
                             document.body.removeChild(element);
-                            
                             setSuccess("Original resume downloaded as markdown!");
                             setTimeout(() => setSuccess(""), 3000);
                           }}
@@ -596,12 +646,26 @@ export default function TailorPage() {
                           Download as Markdown
                         </button>
                       </div>
-                      <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px]">
-                        {resumeText}
-                      </div>
                     </div>
                     
-                    <div>
+                    <div className="relative">
+                      <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px] relative">
+                        {/* Copy button inside text area */}
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(tailoredResume);
+                            setSuccess("Tailored resume copied to clipboard!");
+                            setTimeout(() => setSuccess(""), 3000);
+                          }}
+                          className="absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 z-10 bg-gray-100 dark:bg-gray-800 rounded-full shadow"
+                          title="Copy to clipboard"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                          </svg>
+                        </button>
+                        {tailoredResume}
+                      </div>
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Tailored Resume</h3>
                         <button
@@ -614,7 +678,6 @@ export default function TailorPage() {
                             document.body.appendChild(element);
                             element.click();
                             document.body.removeChild(element);
-                            
                             setSuccess("Tailored resume downloaded as markdown!");
                             setTimeout(() => setSuccess(""), 3000);
                           }}
@@ -625,9 +688,6 @@ export default function TailorPage() {
                           </svg>
                           Download as Markdown
                         </button>
-                      </div>
-                      <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md border border-gray-200 dark:border-gray-600 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-[600px]">
-                        {tailoredResume}
                       </div>
                     </div>
                   </div>
