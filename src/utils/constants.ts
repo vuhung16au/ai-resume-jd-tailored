@@ -15,4 +15,5 @@ export const ACCEPTED_FILE_TYPES = [
 ];
 
 // File type descriptions
-export const ACCEPTED_FILE_EXTENSIONS = '.pdf, .doc, .docx, .txt';
+export const ACCEPTED_FILE_EXTENSIONS = '.doc, .docx, .txt';
+// export const ACCEPTED_FILE_EXTENSIONS = '.pdf, .doc, .docx, .txt';
