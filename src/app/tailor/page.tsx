@@ -241,10 +241,20 @@ export default function TailorPage() {
       await new Promise(resolve => setTimeout(resolve, 800));
       
       const data = await response.json();
-      setTailoredResume(data.tailoredResume);
-      setCoverLetter(data.coverLetter || "");
-      setResumeMatchExplanation(data.resumeMatchExplanation || "");
-      setCoverLetterExplanation(data.coverLetterExplanation || "");
+      // Fix escaped newline characters by converting \n to actual line breaks
+      const processText = (text: string) => {
+        if (!text) return text;
+        return text
+          .replace(/\\n/g, '\n')    // Convert \n to actual newlines
+          .replace(/\\t/g, '\t')    // Convert \t to actual tabs
+          .replace(/\\"/g, '"')     // Convert \" to actual quotes
+          .replace(/\\\\/g, '\\');  // Convert \\ to actual backslashes (do this last)
+      };
+      
+      setTailoredResume(processText(data.tailoredResume));
+      setCoverLetter(processText(data.coverLetter || ""));
+      setResumeMatchExplanation(processText(data.resumeMatchExplanation || ""));
+      setCoverLetterExplanation(processText(data.coverLetterExplanation || ""));
       
       // Show success message after getting the result
       setError(""); // Clear any existing error

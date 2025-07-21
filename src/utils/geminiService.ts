@@ -136,14 +136,24 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
           throw new Error("Invalid response format: missing required fields");
         }
         
+        // Fix escaped newline characters by converting \n to actual line breaks
+        const processText = (text: string) => {
+          if (!text) return text;
+          return text
+            .replace(/\\n/g, '\n')    // Convert \n to actual newlines
+            .replace(/\\t/g, '\t')    // Convert \t to actual tabs
+            .replace(/\\"/g, '"')     // Convert \" to actual quotes
+            .replace(/\\\\/g, '\\');  // Convert \\ to actual backslashes (do this last)
+        };
+        
         console.log(`Successfully generated tailored resume and cover letter using ${modelName}`);
         return { 
           success: true, 
           data: {
-            tailoredResume: parsedResponse.tailoredResume,
-            coverLetter: parsedResponse.coverLetter,
-            resumeMatchExplanation: parsedResponse.resumeMatchExplanation || "This resume has been tailored to highlight experiences and skills most relevant to the job description.",
-            coverLetterExplanation: parsedResponse.coverLetterExplanation || "This cover letter emphasizes your most relevant qualifications and expresses your interest in the position."
+            tailoredResume: processText(parsedResponse.tailoredResume),
+            coverLetter: processText(parsedResponse.coverLetter),
+            resumeMatchExplanation: processText(parsedResponse.resumeMatchExplanation || "This resume has been tailored to highlight experiences and skills most relevant to the job description."),
+            coverLetterExplanation: processText(parsedResponse.coverLetterExplanation || "This cover letter emphasizes your most relevant qualifications and expresses your interest in the position.")
           }
         };
       } catch (parseError) {
@@ -159,13 +169,23 @@ export const tailorResumeWithAI = async (resumeText: string, jobDescription: str
         const resumeMatchExplanationMatch = responseText.match(/"?resumeMatchExplanation"?\s*:\s*"([\s\S]*?)"\s*,/);
         const coverLetterExplanationMatch = responseText.match(/"?coverLetterExplanation"?\s*:\s*"([\s\S]*?)"\s*[}\n]/);
         if (tailoredResumeMatch && coverLetterMatch) {
+          // Fix escaped newline characters by converting \n to actual line breaks
+          const processText = (text: string) => {
+            if (!text) return text;
+            return text
+              .replace(/\\n/g, '\n')    // Convert \n to actual newlines
+              .replace(/\\t/g, '\t')    // Convert \t to actual tabs
+              .replace(/\\"/g, '"')     // Convert \" to actual quotes
+              .replace(/\\\\/g, '\\');  // Convert \\ to actual backslashes (do this last)
+          };
+          
           return {
             success: true,
             data: {
-              tailoredResume: tailoredResumeMatch[1],
-              coverLetter: coverLetterMatch[1],
-              resumeMatchExplanation: resumeMatchExplanationMatch ? resumeMatchExplanationMatch[1] : "This resume has been tailored to highlight experiences and skills most relevant to the job description.",
-              coverLetterExplanation: coverLetterExplanationMatch ? coverLetterExplanationMatch[1] : "This cover letter emphasizes your most relevant qualifications and expresses your interest in the position."
+              tailoredResume: processText(tailoredResumeMatch[1]),
+              coverLetter: processText(coverLetterMatch[1]),
+              resumeMatchExplanation: resumeMatchExplanationMatch ? processText(resumeMatchExplanationMatch[1]) : "This resume has been tailored to highlight experiences and skills most relevant to the job description.",
+              coverLetterExplanation: coverLetterExplanationMatch ? processText(coverLetterExplanationMatch[1]) : "This cover letter emphasizes your most relevant qualifications and expresses your interest in the position."
             }
           };
         }
